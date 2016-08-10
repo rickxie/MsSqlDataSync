@@ -6,7 +6,6 @@ c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\De
 c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.csproj.GenerateResource.Cache
 c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.exe
 c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.pdb
-c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmMain.resources
 c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\Debug\MiniAbp.Ado.dll
 c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\Debug\MiniAbp.dll
 c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\Debug\MiniAbp.Identity.dll
@@ -27,3 +26,5 @@ c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\De
 c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\Debug\Newtonsoft.Json.dll
 c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\Debug\Newtonsoft.Json.xml
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmDashboard.resources
+C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmHelp.resources
+C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmDebug.resources

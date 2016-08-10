@@ -20,7 +20,6 @@ C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\Re
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\Release\Castle.Windsor.xml
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\Release\Microsoft.AspNet.Identity.Core.xml
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\Release\System.Data.SQLite.xml
-C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmMain.resources
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.Properties.Resources.resources
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.csproj.GenerateResource.Cache
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.exe
@@ -28,3 +27,4 @@ C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Re
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.csprojResolveAssemblyReference.cache
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmDashboard.resources
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmHelp.resources
+C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmDebug.resources

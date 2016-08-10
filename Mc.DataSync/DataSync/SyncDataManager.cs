@@ -14,7 +14,7 @@ namespace Mc.DataSync.DataSync
     {
         public string Query { get; set; }
         public DataTable Table { get; set; }
-        public List<string> Columns { get; set; }
+        public List<SyncColumn> Columns { get; set; }
         public string TableName { get; set; }
         private string FromStr { get; set; }
         private readonly string newColumnFormat = "CASE WHEN [{0}] IS NULL THEN 'NULL' WHEN LEN([{0}]) < 100 AND ISDATE([{0}]) = 1 THEN 'N''' + CONVERT(VARCHAR(100),[{0}],21) + '''' ELSE 'N'''+CONVERT(NVARCHAR(MAX), REPLACE( [{0}], '''', '''''' ))+'''' END";
@@ -37,10 +37,10 @@ namespace Mc.DataSync.DataSync
         public void Analyze(bool needSql = false)
         {
             Table = DbDapper.RunDataTableSql(Query);
-            //初始化列
-            InitializeColumns();
             //获取表名
             InitializeTableName();
+            //初始化列
+            InitializeColumns();
             //初始化From后面的语句
             InitializeFromString();
             //获取查询语句
@@ -84,22 +84,37 @@ namespace Mc.DataSync.DataSync
         /// </summary>
         private void InitializeColumns()
         {
-            Columns = new List<string>();
+            Columns = new List<SyncColumn>();
             foreach (DataColumn column in Table.Columns)
             {
-                Columns.Add(column.ColumnName);
+                var inTable = ColumnInTable(column.ColumnName);
+                string defaultValue = "NULL";
+                if (!inTable)
+                {
+                    defaultValue = Table.Rows.Count > 0 ? Table.Rows[0][column.ColumnName].ToString() : "NULL";
+                }
+                Columns.Add(new SyncColumn()
+                {
+                    Name = column.ColumnName,
+                    InTable = inTable,
+                    DefaultValue = defaultValue
+                });
             }
         }
+
         /// <summary>
         /// 组件查询语句
         /// </summary>
         /// <returns></returns>
         private void BuildQuery()
         {
-            List<string> newInsertColumns = Columns.Select(column => newColumnFormat.Fill(column)).ToList();
-            var singleInsertQuery = newInsertFormat.Fill(TableName, string.Join("],[", Columns),
+            List<string> newInsertColumns = Columns.Where(r=>r.InTable).Select(column => newColumnFormat.Fill(column.Name)).ToList();
+            List<string> allDefaultColumns = Columns.Where(r => !r.InTable).Select(columns => "'N''{0}'''".Fill(columns.DefaultValue)).ToList();
+            newInsertColumns.AddRange(allDefaultColumns);
+            var singleInsertQuery = newInsertFormat.Fill(TableName, string.Join("],[", Columns.Select(r=>r.Name)),
                 string.Join(splitOfNewColumn, newInsertColumns));
-            List<string> newUpdateColumns = Columns.Select(column => updateColumnFormat.Fill(column)).ToList();
+
+            List<string> newUpdateColumns = Columns.Where(r => r.InTable).Select(column => updateColumnFormat.Fill(column.Name)).ToList();
             var singleUpdateQuery = newUpdateFormat.Fill(TableName, string.Join("+',", newUpdateColumns));
 
             var sb = new StringBuilder();
@@ -121,5 +136,30 @@ namespace Mc.DataSync.DataSync
             SyncInsertOrUpdateQuery = sb.ToString();
             
         }
+
+        /// <summary>
+        /// 存在于表中
+        /// </summary>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        private bool ColumnInTable(string columnName)
+        {
+            var tableSplited = TableName.Split('.');
+            var objectName = TableName;
+            if (tableSplited.Length != 1)
+            {
+                objectName = tableSplited[tableSplited.Length - 1];
+            }
+            var existInTable =@"SELECT * FROM sys.[columns] WHERE [object_id] = (SELECT TOP 1 [object_id] FROM sys.[objects] WHERE name = '{0}') AND  NAME = N'{1}'"
+                    .Fill(objectName, columnName);
+            return DbDapper.Count(existInTable) > 0;
+        }
+    }
+
+    public class SyncColumn
+    {
+        public string Name { get; set; }
+        public string DefaultValue { get; set; }
+        public bool InTable { get; set; }
     }
 }

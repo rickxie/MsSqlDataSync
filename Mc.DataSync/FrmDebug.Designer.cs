@@ -1,6 +1,6 @@
 ﻿namespace Mc.DataSync
 {
-    partial class FrmMain
+    partial class FrmDebug
     {
         /// <summary>
         /// Required designer variable.

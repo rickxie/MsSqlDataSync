@@ -32,7 +32,7 @@ namespace Mc.DataSync
 
         private void btnDebug_Click(object sender, EventArgs e)
         {
-            FrmMain main = new FrmMain();
+            FrmDebug main = new FrmDebug();
             main.Show();
         }
 

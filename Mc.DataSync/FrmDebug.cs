@@ -14,9 +14,9 @@ using MiniAbp.Extension;
 
 namespace Mc.DataSync
 {
-    public partial class FrmMain : Form
+    public partial class FrmDebug : Form
     {
-        public FrmMain()
+        public FrmDebug()
         {
             InitializeComponent();
         }
