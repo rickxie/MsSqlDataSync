@@ -1,0 +1,75 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync.Console\\Mc.DataSync.Console.csproj": {}
+  },
+  "projects": {
+    "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync.Console\\Mc.DataSync.Console.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync.Console\\Mc.DataSync.Console.csproj",
+        "projectName": "Mc.DataSync.Console",
+        "projectPath": "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync.Console\\Mc.DataSync.Console.csproj",
+        "packagesPath": "C:\\Users\\mc\\.nuget\\packages\\",
+        "outputPath": "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync.Console\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\mc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync\\Mc.DataSync.csproj": {
+                "projectPath": "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync\\Mc.DataSync.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync\\Mc.DataSync.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync\\Mc.DataSync.csproj",
+        "projectName": "Mc.DataSync",
+        "projectPath": "D:\\Code\\Github\\MsSqlDataSync\\Mc.DataSync\\Mc.DataSync.csproj"
+      },
+      "frameworks": {
+        "net46": {}
+      }
+    }
+  }
+}

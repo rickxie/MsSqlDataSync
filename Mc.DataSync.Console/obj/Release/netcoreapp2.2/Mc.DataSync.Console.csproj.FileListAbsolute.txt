@@ -1,0 +1,4 @@
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.Console\obj\Release\netcoreapp2.2\Mc.DataSync.Console.csprojAssemblyReference.cache
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.Console\obj\Release\netcoreapp2.2\Mc.DataSync.Console.csproj.CoreCompileInputs.cache
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.Console\obj\Release\netcoreapp2.2\Mc.DataSync.Console.AssemblyInfoInputs.cache
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.Console\obj\Release\netcoreapp2.2\Mc.DataSync.Console.AssemblyInfo.cs

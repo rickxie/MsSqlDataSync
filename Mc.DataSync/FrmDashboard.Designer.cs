@@ -1,4 +1,6 @@
-﻿namespace Mc.DataSync
+﻿using Mc.DataSync.DataSync;
+
+namespace Mc.DataSync
 {
     partial class FrmDashboard
     {
@@ -129,7 +131,7 @@
             // 
             // nameAndSqlBindingSource
             // 
-            this.nameAndSqlBindingSource.DataSource = typeof(Mc.DataSync.FrmDashboard.NameAndSql);
+            this.nameAndSqlBindingSource.DataSource = typeof(NameAndSql);
             // 
             // nameDataGridViewTextBoxColumn
             // 

@@ -1,0 +1,17 @@
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Mc.DataSync.CMD.exe
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Mc.DataSync.CMD.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Mc.DataSync.exe
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\MiniAbp.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Castle.Windsor.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Castle.Core.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Dapper.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Newtonsoft.Json.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Mc.DataSync.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Mc.DataSync.exe.config
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\MiniAbp.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\obj\Debug\Mc.DataSync.CMD.csprojAssemblyReference.cache
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\obj\Debug\Mc.DataSync.CMD.csproj.CoreCompileInputs.cache
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\obj\Debug\Mc.DataSync.CMD.csproj.CopyComplete
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\obj\Debug\Mc.DataSync.CMD.exe
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\obj\Debug\Mc.DataSync.CMD.pdb

@@ -49,4 +49,3 @@ D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.csproj.CoreCompil
 D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.csproj.CopyComplete
 D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.exe
 D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.pdb
-D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.csprojAssemblyReference.cache

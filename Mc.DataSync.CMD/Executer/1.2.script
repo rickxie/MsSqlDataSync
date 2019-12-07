@@ -1,0 +1,3 @@
+workflow <%workflowCode%>=it03
+viewtable <%viewCode%>=it03_Get
+table <%viewCode%>=it03_Get 

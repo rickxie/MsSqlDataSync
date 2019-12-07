@@ -19,14 +19,15 @@ namespace Mc.DataSync
         {
             InitializeComponent();
         }
-
+        public HandlerExpert executor = null;
         private void btnOpen_Click(object sender, EventArgs e)
         {
             if (ofdOpenFile.ShowDialog() == DialogResult.OK)
             {
-                var linesStr = File.ReadLines(ofdOpenFile.FileName);
-                var result = ReadLines(linesStr);
-                dgvResult.DataSource = result;
+                var linesStr = File.ReadAllText(ofdOpenFile.FileName, Encoding.Default);
+                executor = new HandlerExpert(linesStr);
+                executor.ReadSql();
+                dgvResult.DataSource = executor.nsList;
             }
         }
 
@@ -36,48 +37,15 @@ namespace Mc.DataSync
             main.Show();
         }
 
-        public List<NameAndSql> nsList = new List<NameAndSql>();
-        public List<NameAndSql> ReadLines(IEnumerable<string> strList)
-        {
-            int lineNo = 0;
-            var ns = new NameAndSql();
-            foreach (var str in strList)
-            {
-                if (lineNo == 1)
-                {
-                    lineNo = 0;
-                    ns.Sql = str;
-                    nsList.Add(ns);
-                }
-                if (str.StartsWith("--"))
-                {
-                    lineNo = 1;
-                    ns = new NameAndSql();
-                    ns.Name = str.Substring(2, str.Length - 2);
-                }
-
-            }
-            return nsList;
-        }
 
 
         private void btnBuild_Click(object sender, EventArgs e)
-        {
-
-            StringBuilder sb = new StringBuilder();
-            foreach (var nameAndSql in nsList)
-            {
-                var data = new SyncDataManager(nameAndSql.Sql);
-                data.Analyze(true);
-                sb.AppendLine("--" + nameAndSql.Name);
-                sb.AppendLine(data.SyncSql);
-            }
-
-
+        { 
             var result = fbdSaveDirectory.ShowDialog();
             if (result == DialogResult.OK)
             {
-                File.AppendAllText(fbdSaveDirectory.SelectedPath + "\\{0}.sync.sql".Fill("migration_"+DateTime.Now.ToString("yyyyMMddHHmmss")), sb.ToString());
+                var sql = executor.GetSql();
+                File.AppendAllText(fbdSaveDirectory.SelectedPath + "\\{0}.sync.sql".Fill("migration_"+DateTime.Now.ToString("yyyyMMddHHmmss")), sql.ToString());
             }
         }
 
@@ -85,11 +53,6 @@ namespace Mc.DataSync
         {
             FrmHelp help = new FrmHelp();
             help.ShowDialog();
-        }
-        public class NameAndSql
-        {
-            public string Name { get; set; }
-            public string Sql { get; set; }
         }
     }
 
