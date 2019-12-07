@@ -28,3 +28,25 @@ c:\users\mc\documents\visual studio 2015\Projects\Mc.DataSync\Mc.DataSync\bin\De
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmDashboard.resources
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmHelp.resources
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmDebug.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\Mc.DataSync.exe.config
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\Mc.DataSync.exe
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\Mc.DataSync.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\MiniAbp.Ado.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\MiniAbp.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\Newtonsoft.Json.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\Castle.Windsor.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\Castle.Core.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\Dapper.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\MiniAbp.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Debug\MiniAbp.Ado.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmDashboard.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmHelp.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.FrmDebug.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.Properties.Resources.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.csproj.GenerateResource.cache
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.csproj.CoreCompileInputs.cache
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.csproj.CopyComplete
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.exe
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Debug\Mc.DataSync.csprojAssemblyReference.cache

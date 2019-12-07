@@ -28,3 +28,24 @@ C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Re
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmDashboard.resources
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmHelp.resources
 C:\Users\MC\Documents\Visual Studio 2015\Projects\Mc.DataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmDebug.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\Mc.DataSync.exe.config
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\Mc.DataSync.exe
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\Mc.DataSync.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\MiniAbp.Ado.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\MiniAbp.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\Newtonsoft.Json.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\Castle.Core.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\Dapper.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\Castle.Windsor.dll
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\MiniAbp.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\MiniAbp.Ado.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmDashboard.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmHelp.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Release\Mc.DataSync.FrmDebug.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Release\Mc.DataSync.Properties.Resources.resources
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Release\Mc.DataSync.csproj.GenerateResource.cache
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Release\Mc.DataSync.csproj.CoreCompileInputs.cache
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Release\Mc.DataSync.csproj.CopyComplete
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Release\Mc.DataSync.exe
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\obj\Release\Mc.DataSync.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync\bin\Release\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll

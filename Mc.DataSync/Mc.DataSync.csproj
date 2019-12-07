@@ -33,14 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Package\MiniAbp\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="MiniAbp">
       <HintPath>..\Package\MiniAbp\MiniAbp.dll</HintPath>
     </Reference>
     <Reference Include="MiniAbp.Ado">
       <HintPath>..\Package\MiniAbp\MiniAbp.Ado.dll</HintPath>
-    </Reference>
-    <Reference Include="MiniAbp.Identity">
-      <HintPath>..\Package\MiniAbp\MiniAbp.Identity.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,7 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataSyncModule.cs" />
     <Compile Include="DataSync\SyncDataManager.cs" />
     <Compile Include="FrmDashboard.cs">
       <SubType>Form</SubType>
