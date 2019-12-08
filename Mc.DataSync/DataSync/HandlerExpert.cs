@@ -13,16 +13,16 @@ namespace Mc.DataSync.DataSync
     public class HandlerExpert
     {
         private string handler { get; set; }
+        public List<NameAndSql> nsList = new List<NameAndSql>();
         public HandlerExpert(string handler)
         {
             this.handler = handler;
             
         }
-        public List<NameAndSql> nsList = new List<NameAndSql>();
         /// <summary>
         /// 逐行读取字符串
         /// </summary>
-        public void ReadSql()
+        public void Parse()
         {
             var strList = new List<string>();
             using (StringReader sr = new StringReader(handler))
@@ -65,7 +65,7 @@ namespace Mc.DataSync.DataSync
         /// <summary>
         /// 执行
         /// </summary>
-        public string GetSql()
+        public string Execute()
         {
             StringBuilder sb = new StringBuilder();
             foreach (var nameAndSql in nsList)

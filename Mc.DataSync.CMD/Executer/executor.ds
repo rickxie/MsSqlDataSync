@@ -1,0 +1,6 @@
+// 流程图
+workflow.sql: <%workflowCode%>=it03
+// 视图
+viewtable.sql: <%viewCode%>=it03_Get
+// 表
+table.sql: <%viewCode%>=it03_Get 

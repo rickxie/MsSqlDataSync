@@ -26,7 +26,7 @@ namespace Mc.DataSync
             {
                 var linesStr = File.ReadAllText(ofdOpenFile.FileName, Encoding.Default);
                 executor = new HandlerExpert(linesStr);
-                executor.ReadSql();
+                executor.Parse();
                 dgvResult.DataSource = executor.nsList;
             }
         }
@@ -44,7 +44,7 @@ namespace Mc.DataSync
             var result = fbdSaveDirectory.ShowDialog();
             if (result == DialogResult.OK)
             {
-                var sql = executor.GetSql();
+                var sql = executor.Execute();
                 File.AppendAllText(fbdSaveDirectory.SelectedPath + "\\{0}.sync.sql".Fill("migration_"+DateTime.Now.ToString("yyyyMMddHHmmss")), sql.ToString());
             }
         }

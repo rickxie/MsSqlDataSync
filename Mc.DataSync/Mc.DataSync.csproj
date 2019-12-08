@@ -61,8 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSync\Commander.cs" />
     <Compile Include="DataSync\ExecutorExpert.cs" />
-    <Compile Include="DataSync\HandlerReader.cs" />
+    <Compile Include="DataSync\HandlerExpert.cs" />
+    <Compile Include="DataSync\PathConfig.cs" />
     <Compile Include="DataSync\SyncDataManager.cs" />
     <Compile Include="FrmDashboard.cs">
       <SubType>Form</SubType>

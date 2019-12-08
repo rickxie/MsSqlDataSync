@@ -1,4 +1,6 @@
-﻿using MiniAbp;
+﻿using Mc.DataSync.DataSync;
+using MiniAbp;
+using MiniAbp.Extension;
 using MiniAbp.Runtime;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,44 @@ namespace Mc.DataSync.CMD
         static void Main(string[] args)
         {
             MiniAbp.MiniAbp.StartWithSqlServer(GetConnectionString());
-
+            string exeDir = string.Empty;
+            if (args != null && args.Length  == 1)
+            {
+                exeDir = args[0];
+            }
+            else
+            {
+                exeDir = Console.ReadLine();
+            }
+            if (!Directory.Exists(exeDir))
+            {
+                Console.WriteLine($"文件夹路径不存在: {exeDir}");
+            }
+            DirectoryInfo di = new DirectoryInfo(exeDir);
+            var files = di.GetFiles();
+            StringBuilder sb = new StringBuilder();
+            var ii = 0;
+            files.Foreach(i =>
+            {
+                try
+                {
+                    var sqls = File.ReadAllText(i.FullName);
+                    ExecutorExpert e = new ExecutorExpert(sqls);
+                    e.Parse();
+                    var result = e.Execute();
+                    Console.WriteLine($"正在执行第{++ii}条命令集.");
+                    sb.Append(result);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            });
+            // 保存路径
+            var storedFullName = Path.Combine(exeDir, $"执行结果_{DateTime.Now.ToString("MM-dd-hhmmss")}.sql");
+            File.WriteAllText(storedFullName, sb.ToString());
+            Console.WriteLine("执行完成！");
+          
         }
         /// <summary>
         /// 读取配置信息

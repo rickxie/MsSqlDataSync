@@ -15,3 +15,7 @@ D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\obj\Debug\Mc.DataSync.CMD.csproj.Co
 D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\obj\Debug\Mc.DataSync.CMD.csproj.CopyComplete
 D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\obj\Debug\Mc.DataSync.CMD.exe
 D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\obj\Debug\Mc.DataSync.CMD.pdb
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Handler\table.sql
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Handler\viewtable.sql
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Handler\workflow.sql
+D:\Code\Github\MsSqlDataSync\Mc.DataSync.CMD\bin\Debug\Executer\executor.ds
