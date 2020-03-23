@@ -92,6 +92,12 @@
     <Compile Include="ReleaseBuild\FrmComparisonDetail.Designer.cs">
       <DependentUpon>FrmComparisonDetail.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReleaseBuild\FrmProgresscs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReleaseBuild\FrmProgresscs.Designer.cs">
+      <DependentUpon>FrmProgresscs.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReleaseBuild\FrmReleaseBuild.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     <EmbeddedResource Include="ReleaseBuild\FrmComparisonDetail.resx">
       <DependentUpon>FrmComparisonDetail.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReleaseBuild\FrmProgresscs.resx">
+      <DependentUpon>FrmProgresscs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReleaseBuild\FrmReleaseBuild.resx">
       <DependentUpon>FrmReleaseBuild.cs</DependentUpon>
     </EmbeddedResource>
@@ -139,8 +148,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ReleaseBuild\WfdWorkflow.xml" />
-    <Content Include="ReleaseBuild\BpmViewTable.xml" />
+    <Content Include="Configs\Handlers\table.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\Handlers\viewtable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\Handlers\workflow.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\Tabs\BpmViewTable.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\Tabs\WfdWorkflow.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\QQ图片20160809200711.png" />
   </ItemGroup>
   <ItemGroup>

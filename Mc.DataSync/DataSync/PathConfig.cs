@@ -11,6 +11,6 @@ namespace Mc.DataSync.DataSync
         /// <summary>
         /// Handler 路径
         /// </summary>
-        public static string HANDLER_PATH { get; set; } = "Handler";
+        public static string HANDLER_PATH { get; set; } = "Configs//Handlers";
     }
 }

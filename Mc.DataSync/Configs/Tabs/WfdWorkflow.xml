@@ -17,15 +17,9 @@
     <ReplaceParams>
       <ReplaceParam>
         <!-- 参数列字段  -->
-        <ParamName>Id</ParamName>
+        <ParamName>workflowCode</ParamName>
         <!-- 参数替换变量名称 -->
-        <InputColunmnName>&lt;WorkflowId&gt;</InputColunmnName>
-      </ReplaceParam>
-      <ReplaceParam>
-        <!-- 参数列字段  -->
-        <ParamName>Code</ParamName>
-        <!-- 参数替换变量名称 -->
-        <InputColunmnName>&lt;WorkflowCode&gt;</InputColunmnName>
+        <InputColunmnName>WorkflowCode</InputColunmnName>
       </ReplaceParam>
     </ReplaceParams>
   </TabConfig>

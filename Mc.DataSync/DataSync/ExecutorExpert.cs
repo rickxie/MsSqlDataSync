@@ -61,6 +61,10 @@ namespace Mc.DataSync.DataSync
                 for (int i = 0; i < parmsStr.Length; i++)
                 {
                     var curParam = parmsStr[i].Trim().Split('=');
+                    if (curParam.Length == 1 && string.IsNullOrWhiteSpace(curParam[0]))
+                    {
+                        continue;
+                    }
                     if (curParam.Length != 2)
                     {
                         throw new Exception($"参数解析错误,每个参数支持一个符号'=',{item}");

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Mc.DataSync.ReleaseBuild;
 using MiniAbp;
 using MiniAbp.Runtime;
 
@@ -22,7 +23,7 @@ namespace Mc.DataSync
             MiniAbp.MiniAbp.StartWithSqlServer(GetConnectionString());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmDashboard());
+            Application.Run(new FrmReleaseBuild());
         }
         /// <summary>
         /// 读取配置信息

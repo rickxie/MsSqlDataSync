@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace Mc.DataSync.ReleaseBuild
@@ -18,7 +19,7 @@ namespace Mc.DataSync.ReleaseBuild
     /// 发布构建辅助类
     /// </summary>
     public class ReleaseBuildHelper
-    {
+    { 
         #region 初始化参数
 
         /// <summary>
@@ -546,7 +547,20 @@ namespace Mc.DataSync.ReleaseBuild
             get { return comparisonConfig; }
             set { comparisonConfig = value; }
         }
+        public DataTable CheckTable { get; set; }
 
+
+        public DataTable GetCheckTable()
+        {
+            if (this.CheckTable == null)
+            {
+                var dt = DbDapper.RunDataTableSql(TabConfig.GetSql);
+                dt.Columns.Add("_Checked", typeof(bool));
+                dt.Columns.Add("_Status", typeof(string));
+                CheckTable = dt;
+            }
+            return CheckTable;
+        }
     }
 
     /// <summary>
