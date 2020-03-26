@@ -503,6 +503,8 @@ namespace Mc.DataSync.ReleaseBuild
             var dt = curConfig.GetCheckTable();
             //3.数据绑定
             dataTableToListview(dt);
+
+            ShowChecked();
         }
 
    

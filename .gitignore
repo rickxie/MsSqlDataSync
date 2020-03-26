@@ -6,3 +6,4 @@
 /.vs/Mc.DataSync/v16/Server/sqlite3/storage.ide-wal
 /Mc.DataSync/bin/Debug/Configs
 /Mc.DataSync/obj
+/Mc.DataSync/App.config

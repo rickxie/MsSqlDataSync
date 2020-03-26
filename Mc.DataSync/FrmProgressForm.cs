@@ -49,6 +49,9 @@ namespace Mc.DataSync
             this.Close();
         }
 
+        private void FrmProgressForm_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }
