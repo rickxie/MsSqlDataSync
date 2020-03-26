@@ -36,10 +36,12 @@
             this.listV_ShowData = new System.Windows.Forms.ListView();
             this.text = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnChose = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbResult = new System.Windows.Forms.TextBox();
             this.btnGenerate = new System.Windows.Forms.Button();
-            this.btnChose = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.bgw_Generate = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -51,20 +53,18 @@
             // 
             this.tabReleaseList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabReleaseList.Location = new System.Drawing.Point(11, 28);
-            this.tabReleaseList.Margin = new System.Windows.Forms.Padding(4);
+            this.tabReleaseList.Location = new System.Drawing.Point(8, 22);
             this.tabReleaseList.Name = "tabReleaseList";
             this.tabReleaseList.SelectedIndex = 0;
-            this.tabReleaseList.Size = new System.Drawing.Size(490, 29);
+            this.tabReleaseList.Size = new System.Drawing.Size(367, 23);
             this.tabReleaseList.TabIndex = 0;
             this.tabReleaseList.SelectedIndexChanged += new System.EventHandler(this.tabReleaseList_SelectedIndexChanged);
             // 
             // btn_ComparisonAll
             // 
-            this.btn_ComparisonAll.Location = new System.Drawing.Point(436, 69);
-            this.btn_ComparisonAll.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_ComparisonAll.Location = new System.Drawing.Point(327, 55);
             this.btn_ComparisonAll.Name = "btn_ComparisonAll";
-            this.btn_ComparisonAll.Size = new System.Drawing.Size(100, 29);
+            this.btn_ComparisonAll.Size = new System.Drawing.Size(75, 23);
             this.btn_ComparisonAll.TabIndex = 4;
             this.btn_ComparisonAll.Text = "全局对比";
             this.btn_ComparisonAll.UseVisualStyleBackColor = true;
@@ -72,10 +72,9 @@
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(363, 69);
-            this.btn_search.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_search.Location = new System.Drawing.Point(272, 55);
             this.btn_search.Name = "btn_search";
-            this.btn_search.Size = new System.Drawing.Size(65, 29);
+            this.btn_search.Size = new System.Drawing.Size(49, 23);
             this.btn_search.TabIndex = 3;
             this.btn_search.Text = "搜索";
             this.btn_search.UseVisualStyleBackColor = true;
@@ -83,20 +82,18 @@
             // 
             // txt_SearchText
             // 
-            this.txt_SearchText.Location = new System.Drawing.Point(58, 72);
-            this.txt_SearchText.Margin = new System.Windows.Forms.Padding(4);
+            this.txt_SearchText.Location = new System.Drawing.Point(44, 58);
             this.txt_SearchText.Name = "txt_SearchText";
-            this.txt_SearchText.Size = new System.Drawing.Size(297, 25);
+            this.txt_SearchText.Size = new System.Drawing.Size(224, 21);
             this.txt_SearchText.TabIndex = 2;
             this.txt_SearchText.TextChanged += new System.EventHandler(this.txt_SearchText_TextChanged);
             // 
             // lblSearchText
             // 
             this.lblSearchText.AutoSize = true;
-            this.lblSearchText.Location = new System.Drawing.Point(13, 76);
-            this.lblSearchText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSearchText.Location = new System.Drawing.Point(10, 61);
             this.lblSearchText.Name = "lblSearchText";
-            this.lblSearchText.Size = new System.Drawing.Size(45, 15);
+            this.lblSearchText.Size = new System.Drawing.Size(35, 12);
             this.lblSearchText.TabIndex = 1;
             this.lblSearchText.Text = "条件:";
             // 
@@ -111,10 +108,9 @@
             this.listV_ShowData.FullRowSelect = true;
             this.listV_ShowData.GridLines = true;
             this.listV_ShowData.HideSelection = false;
-            this.listV_ShowData.Location = new System.Drawing.Point(11, 146);
-            this.listV_ShowData.Margin = new System.Windows.Forms.Padding(4);
+            this.listV_ShowData.Location = new System.Drawing.Point(8, 117);
             this.listV_ShowData.Name = "listV_ShowData";
-            this.listV_ShowData.Size = new System.Drawing.Size(537, 557);
+            this.listV_ShowData.Size = new System.Drawing.Size(403, 446);
             this.listV_ShowData.TabIndex = 0;
             this.listV_ShowData.UseCompatibleStateImageBehavior = false;
             this.listV_ShowData.View = System.Windows.Forms.View.Details;
@@ -130,6 +126,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -146,9 +143,20 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.btnGenerate);
-            this.splitContainer1.Size = new System.Drawing.Size(1300, 715);
-            this.splitContainer1.SplitterDistance = 554;
+            this.splitContainer1.Size = new System.Drawing.Size(975, 572);
+            this.splitContainer1.SplitterDistance = 415;
+            this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 5;
+            // 
+            // btnChose
+            // 
+            this.btnChose.Location = new System.Drawing.Point(10, 87);
+            this.btnChose.Name = "btnChose";
+            this.btnChose.Size = new System.Drawing.Size(75, 23);
+            this.btnChose.TabIndex = 4;
+            this.btnChose.Text = "全选差异";
+            this.btnChose.UseVisualStyleBackColor = true;
+            this.btnChose.Click += new System.EventHandler(this.btnChose_Click);
             // 
             // groupBox1
             // 
@@ -156,52 +164,52 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.tbResult);
-            this.groupBox1.Location = new System.Drawing.Point(3, 59);
+            this.groupBox1.Location = new System.Drawing.Point(2, 47);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(739, 607);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(555, 486);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "选择结果";
             // 
             // tbResult
             // 
-            this.tbResult.Location = new System.Drawing.Point(6, 24);
+            this.tbResult.Location = new System.Drawing.Point(4, 19);
+            this.tbResult.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbResult.Multiline = true;
             this.tbResult.Name = "tbResult";
             this.tbResult.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.tbResult.Size = new System.Drawing.Size(720, 566);
+            this.tbResult.Size = new System.Drawing.Size(541, 454);
             this.tbResult.TabIndex = 0;
             // 
             // btnGenerate
             // 
             this.btnGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGenerate.Location = new System.Drawing.Point(561, 668);
-            this.btnGenerate.Margin = new System.Windows.Forms.Padding(4);
+            this.btnGenerate.Location = new System.Drawing.Point(422, 534);
             this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(168, 35);
+            this.btnGenerate.Size = new System.Drawing.Size(126, 28);
             this.btnGenerate.TabIndex = 4;
             this.btnGenerate.Text = "生成脚本";
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
-            // btnChose
+            // backgroundWorker1
             // 
-            this.btnChose.Location = new System.Drawing.Point(13, 109);
-            this.btnChose.Margin = new System.Windows.Forms.Padding(4);
-            this.btnChose.Name = "btnChose";
-            this.btnChose.Size = new System.Drawing.Size(100, 29);
-            this.btnChose.TabIndex = 4;
-            this.btnChose.Text = "全选差异";
-            this.btnChose.UseVisualStyleBackColor = true;
-            this.btnChose.Click += new System.EventHandler(this.btnChose_Click);
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // bgw_Generate
+            // 
+            this.bgw_Generate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgw_Generate_DoWork);
+            this.bgw_Generate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgw_Generate_RunWorkerCompleted);
             // 
             // FrmReleaseBuild
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1300, 715);
+            this.ClientSize = new System.Drawing.Size(975, 572);
             this.Controls.Add(this.splitContainer1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmReleaseBuild";
             this.Text = "发布配置工具";
             this.Load += new System.EventHandler(this.FrmReleaseBuild_Load);
@@ -230,5 +238,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox tbResult;
         private System.Windows.Forms.Button btnChose;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.ComponentModel.BackgroundWorker bgw_Generate;
     }
 }
