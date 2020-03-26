@@ -84,6 +84,18 @@
     <Compile Include="FrmDebug.Designer.cs">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmProgressForm.Designer.cs">
+      <DependentUpon>FrmProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSchemaComparison.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSchemaComparison.Designer.cs">
+      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseBuild\FrmComparisonDetail.cs">
@@ -91,12 +103,6 @@
     </Compile>
     <Compile Include="ReleaseBuild\FrmComparisonDetail.Designer.cs">
       <DependentUpon>FrmComparisonDetail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ReleaseBuild\FrmProgresscs.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ReleaseBuild\FrmProgresscs.Designer.cs">
-      <DependentUpon>FrmProgresscs.cs</DependentUpon>
     </Compile>
     <Compile Include="ReleaseBuild\FrmReleaseBuild.cs">
       <SubType>Form</SubType>
@@ -114,6 +120,12 @@
     <EmbeddedResource Include="FrmDebug.resx">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmProgressForm.resx">
+      <DependentUpon>FrmProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSchemaComparison.resx">
+      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -126,9 +138,6 @@
     </Compile>
     <EmbeddedResource Include="ReleaseBuild\FrmComparisonDetail.resx">
       <DependentUpon>FrmComparisonDetail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ReleaseBuild\FrmProgresscs.resx">
-      <DependentUpon>FrmProgresscs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReleaseBuild\FrmReleaseBuild.resx">
       <DependentUpon>FrmReleaseBuild.cs</DependentUpon>

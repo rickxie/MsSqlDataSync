@@ -20,6 +20,12 @@ namespace Mc.DataSync.ReleaseBuild
         public FrmReleaseBuild()
         {
             InitializeComponent();
+
+            this.backgroundWorker1.WorkerReportsProgress = true;  //设置能报告进度更新
+            this.backgroundWorker1.WorkerSupportsCancellation = true;  //设置支持异步取消
+            this.bgw_Generate.WorkerReportsProgress = true;  //设置能报告进度更新
+            this.bgw_Generate.WorkerSupportsCancellation = true;  //设置支持异步取消
+            Control.CheckForIllegalCrossThreadCalls = false;//取消线程间的安全检查
         }
 
         /// <summary>
@@ -229,17 +235,35 @@ namespace Mc.DataSync.ReleaseBuild
         /// <param name="e"></param>
         private void btn_ComparisonAll_Click(object sender, EventArgs e)
         {
-            var comparisonConfig =  curConfig.ComparisonConfig;
+            this.backgroundWorker1.RunWorkerAsync();  //运行backgroundWorker组件
+            FrmProgressForm form = new FrmProgressForm(this.backgroundWorker1);  //显示进度条窗体
+            form.ShowDialog(this);
+            form.Close();
+            
+        }
+
+        #region 全局对比进度条处理
+
+        //全局对比 ,在另一个线程上开始运行(处理进度条)
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            var comparisonConfig = curConfig.ComparisonConfig;
             var table = curConfig.GetCheckTable();
-            //遍历所有的行
-            foreach (ListViewItem item in listV_ShowData.Items)
+            var sumCount = listV_ShowData.Items.Count;
+            for (int i = 0; i < sumCount; i++)
             {
+                #region 1.执行处理逻辑
+
+                ListViewItem item = listV_ShowData.Items[i];
                 //封装输入参数
                 Dictionary<string, string> inputPar = new Dictionary<string, string>();
                 foreach (ListViewItem.ListViewSubItem subItem in item.SubItems)
                 {
                     inputPar.Add(subItem.Name, subItem.Text);
                 }
+
                 //执行对比,并设置背景颜色
                 var status = rbh.ComparisonDataForQuick(comparisonConfig, inputPar);
                 if (status == 1) //新增
@@ -250,16 +274,57 @@ namespace Mc.DataSync.ReleaseBuild
                 {
                     item.ForeColor = Color.LightCoral;
                 }
-                else {
+                else
+                {
                     item.ForeColor = Color.Black;
                 }
 
                 var id = item.Name;
                 var row = table.Select($"id = '{id}'");
                 row[0]["_Status"] = status;
+
+                #endregion
+
+                #region 2.计算完成度
+
+                var percentum = Convert.ToInt32((i + 1) / Convert.ToDouble(sumCount) * 100);
+                worker.ReportProgress(percentum);
+                if (worker.CancellationPending) //获取程序是否已请求取消后台操作
+                {
+                    e.Cancel = true;
+                    break;
+                }
+
+                #endregion
+
             }
-            ShowChecked();
         }
+
+        /// <summary>
+        /// 全局对比结束
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+            else if (e.Cancelled)
+            {
+                ShowChecked();
+            }
+            else
+            {
+                ShowChecked();
+            }
+        }
+
+
+        #endregion
+
+
 
         private void txt_SearchText_TextChanged(object sender, EventArgs e)
         {
@@ -333,24 +398,94 @@ namespace Mc.DataSync.ReleaseBuild
             return sb;
         }
 
+        /// <summary>
+        /// 执行脚本生成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            var sb = new StringBuilder();
+            //清空数据
+            GenerateAppendText.Clear();
+
+            this.bgw_Generate.RunWorkerAsync();  //运行backgroundWorker组件
+            FrmProgressForm form = new FrmProgressForm(this.bgw_Generate);  //显示进度条窗体
+            form.ShowDialog(this);
+            form.Close();
+        }
+
+        #region 生成脚本处理进度条
+
+        /// <summary>
+        /// 临时生成脚本文本对象
+        /// </summary>
+        private StringBuilder GenerateAppendText = new StringBuilder();
+        private void bgw_Generate_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
             var commands = GetBatTxt();
-            foreach (var cmd in commands)
+            var sumCount = commands.Count;
+            for (int i = 0; i < sumCount; i++)
             {
-                var executor = new ExecutorExpert(cmd);
+                #region 1.执行处理逻辑
+
+                var executor = new ExecutorExpert(commands[i]);
                 executor.Parse();
-                sb.Append(executor.Execute());
+                GenerateAppendText.Append(executor.Execute());
+
+                #endregion
+
+                #region 2.计算完成度
+
+                var percentum = Convert.ToInt32((i + 1) / Convert.ToDouble(sumCount) * 100);
+                worker.ReportProgress(percentum);
+                if (worker.CancellationPending) //获取程序是否已请求取消后台操作
+                {
+                    e.Cancel = true;
+                    break;
+                }
+
+                #endregion
             }
+
+        }
+
+        /// <summary>
+        /// 进度条完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bgw_Generate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+            else if (e.Cancelled)
+            {
+               //不做任何操作
+            }
+            else
+            {
+                ExpertGenerateSql();
+            }
+        }
+
+        /// <summary>
+        /// 导出生成脚本
+        /// </summary>
+        private void ExpertGenerateSql() {
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "数据库脚本（*.sql）|*.sql";
             dialog.DefaultExt = ".sql";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                File.WriteAllText(dialog.FileName, sb.ToString());
+                File.WriteAllText(dialog.FileName, GenerateAppendText.ToString());
             }
         }
+
+        #endregion
 
         private void btnChose_Click(object sender, EventArgs e)
         {
@@ -369,5 +504,9 @@ namespace Mc.DataSync.ReleaseBuild
             //3.数据绑定
             dataTableToListview(dt);
         }
+
+   
+
+
     }
 }
