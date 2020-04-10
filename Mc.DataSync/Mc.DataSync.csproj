@@ -61,6 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AppInfo.cs" />
+    <Compile Include="Common\FileUtility.cs" />
+    <Compile Include="Common\HashInfo.cs" />
+    <Compile Include="Common\Utils.cs" />
     <Compile Include="DataSync\Commander.cs" />
     <Compile Include="DataSync\ExecutorExpert.cs" />
     <Compile Include="DataSync\HandlerExpert.cs" />
@@ -90,10 +94,6 @@
     <Compile Include="FrmProgressForm.Designer.cs">
       <DependentUpon>FrmProgressForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmSchemaComparison.cs" />
-    <Compile Include="FrmSchemaComparison.Designer.cs">
-      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseBuild\FrmBuildMain.cs">
@@ -114,7 +114,19 @@
     <Compile Include="ReleaseBuild\FrmReleaseBuild.Designer.cs">
       <DependentUpon>FrmReleaseBuild.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReleaseBuild\FrmSchemaComparison.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReleaseBuild\FrmSchemaComparison.Designer.cs">
+      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReleaseBuild\ReleaseBuildHelper.cs" />
+    <Compile Include="ReleaseBuild\WinCompare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReleaseBuild\WinCompare.designer.cs">
+      <DependentUpon>WinCompare.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="FrmDashboard.resx">
       <DependentUpon>FrmDashboard.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,9 +138,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmProgressForm.resx">
       <DependentUpon>FrmProgressForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmSchemaComparison.resx">
-      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -149,6 +158,13 @@
     <EmbeddedResource Include="ReleaseBuild\FrmReleaseBuild.resx">
       <DependentUpon>FrmReleaseBuild.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReleaseBuild\FrmSchemaComparison.resx">
+      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReleaseBuild\WinCompare.resx">
+      <DependentUpon>WinCompare.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\DataSources\FrmDashboard.NameAndSql.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -159,9 +175,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="UI\lib\zui\fonts\zenicon.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UI\lib\zui\fonts\zenicon.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UI\lib\zui\fonts\zenicon.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configs\Handlers\table.sql">
+    <Content Include="Configs\Handlers\enum.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configs\Handlers\viewtable.sql">
@@ -175,6 +200,102 @@
     </Content>
     <Content Include="Configs\Tabs\WfdWorkflow.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\compare.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\css\common.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\js\compare.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\angular.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\display\fullscreen.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\display\fullscreen.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\edit\closebrackets.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\edit\closetag.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\edit\continuelist.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\edit\matchbrackets.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\edit\matchtags.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\edit\trailingspace.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\fold\xml-fold.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\merge\merge.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\merge\merge.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\addon\selection\active-line.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\lib\codemirror.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\lib\codemirror.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\mode\clike\clike.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\mode\css\css.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\mode\htmlmixed\htmlmixed.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\mode\javascript\javascript.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\mode\xml\xml.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\codemirror-5.39.0\theme\visual-studio-2012.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\diff-match-patch\javascript\diff_match_patch.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\jquery-3.3.1.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\zui\css\zui-theme.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\zui\css\zui.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\zui\fonts\zenicon.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\zui\js\zui.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\zui\lib\datatable\zui.datatable.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\lib\zui\lib\datatable\zui.datatable.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\QQ图片20160809200711.png" />
   </ItemGroup>

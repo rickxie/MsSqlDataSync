@@ -1600,7 +1600,7 @@ GO
         /// <summary>
         /// 查询列字段或者函数
         /// </summary>
-        [XmlElement("ComparisonSelectColumn")]
+        [XmlAttribute("SelectColumn")]
         public string ComparisonSelectColumn
         {
             get { return comparisonSelectColumn; }
@@ -1608,7 +1608,7 @@ GO
         }
 
         string comparisonShowColumn = string.Empty;
-        [XmlElement("ComparisonShowColumn")]
+        [XmlAttribute("ShowColumn")]
         /// <summary>
         /// 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 
         /// </summary>
@@ -1671,10 +1671,12 @@ GO
         /// <summary>
         /// 执行sql参数化字段名称
         /// </summary>
+        [XmlAttribute(AttributeName = "ParamName")]
         public string ParamName { get; set; }
         /// <summary>
         /// 传入参数化获取数据时传入的字段名称
         /// </summary>
+        [XmlAttribute(AttributeName = "InputColunmnName")]
         public string InputColunmnName { get; set; }
     }
 

@@ -37,158 +37,38 @@
         <PrimaryKey>Id</PrimaryKey>
         <!-- 需要对比的列 -->
         <ComparisonColumns>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Id</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Code</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>FromWorkflowId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>LangName</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>SnFormat</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>DisplayOrder</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Memo</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>WfdCategoryId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Zoom</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Width</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Height</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>InformLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ColumnLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>AreaEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>AreaCodeList</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsDeleted</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>StandardTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>HasMobileRaise</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>HasMobileApproval</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>EnableApply</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>EnableApprove</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>EnableDetailRead</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>EnableListRead</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>EnableAgentApply</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>EnableAgentApproval</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-
+          <!-- SelectColumn 查询列字段或者函数 -->
+          <!-- ShowColumn 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
+          <ComparisonColumn SelectColumn="Id" />
+          <ComparisonColumn SelectColumn="FromWorkflowId" />
+          <ComparisonColumn SelectColumn="Code" />
+          <ComparisonColumn SelectColumn="LangName" />
+          <ComparisonColumn SelectColumn="SnFormat" />
+          <ComparisonColumn SelectColumn="DisplayOrder" />
+          <ComparisonColumn SelectColumn="Memo" />
+          <ComparisonColumn SelectColumn="WfdCategoryId" />
+          <ComparisonColumn SelectColumn="Zoom" />
+          <ComparisonColumn SelectColumn="Width" />
+          <ComparisonColumn SelectColumn="Height" />
+          <ComparisonColumn SelectColumn="EnterpriseId" />
+          <ComparisonColumn SelectColumn="InformLinkId" />
+          <ComparisonColumn SelectColumn="ColumnLinkId" />
+          <ComparisonColumn SelectColumn="AreaEnable" />
+          <ComparisonColumn SelectColumn="AreaCodeList" />
+          <ComparisonColumn SelectColumn="DeletionTime" />
+          <ComparisonColumn SelectColumn="DeleterUserId" />
+          <ComparisonColumn SelectColumn="IsDeleted" />
+          <ComparisonColumn SelectColumn="CreationTime" />
+          <ComparisonColumn SelectColumn="CreatorUserId" />
+          <ComparisonColumn SelectColumn="StandardTime" />
+          <ComparisonColumn SelectColumn="HasMobileRaise" />
+          <ComparisonColumn SelectColumn="HasMobileApproval" />
+          <ComparisonColumn SelectColumn="EnableApply" />
+          <ComparisonColumn SelectColumn="EnableApprove" />
+          <ComparisonColumn SelectColumn="EnableDetailRead" />
+          <ComparisonColumn SelectColumn="EnableListRead" />
+          <ComparisonColumn SelectColumn="EnableAgentApply" />
+          <ComparisonColumn SelectColumn="EnableAgentApproval" />
         </ComparisonColumns>
         <!-- 对比数据筛选条件 -->
         <ComparisonCondition>
@@ -198,12 +78,9 @@
           </ConditionSql>
           <!-- 传递参数配置 -->
           <ReplaceParams>
-            <ReplaceParam>
-              <!-- 执行sql参数化字段名称  -->
-              <ParamName>WfdWorkflowId</ParamName>
-              <!-- 传入参数化获取数据时传入的字段名称 -->
-              <InputColunmnName>WorkflowId</InputColunmnName>
-            </ReplaceParam>
+            <!-- 执行sql参数化字段名称  -->
+            <!-- 传入参数化获取数据时传入的字段名称 -->
+            <ReplaceParam ParamName="WfdWorkflowId" InputColunmnName="WorkflowId"/>
           </ReplaceParams>
         </ComparisonCondition>
       </ComparisonTable>
@@ -218,272 +95,51 @@
         <PrimaryKey>Id</PrimaryKey>
         <!-- 需要对比的列 -->
         <ComparisonColumns>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Id</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Type</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Code</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>LangName</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>AppPageId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>DisplayOrder</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Memo</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsEntryEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>EntryCondition</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ActionLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ProcessType</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ProcessorLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>JumpTypeBinary</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>JumpNodeId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>CopyLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>InformLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ColumnLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsOvertimeInformEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeBeginTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeIntervalTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeInformLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeInformEffectStartTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeInformEffectEndTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeInformNoEndTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsOvertimeActionEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeActionTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeActionType</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeActionEffectStartTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeActionEffectEndTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>OvertimeActionNoEndTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>PreProcessorLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsExamineEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ExamineStandardTime</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>AutoCallType</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>AutoCallValue</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>SubWorkflowId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>WfdWorkflowId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>X</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Y</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Width</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Height</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ShapeType</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ImageSrc</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>DisableRecall</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-
+          <ComparisonColumn SelectColumn="Id" />
+          <ComparisonColumn SelectColumn="Type" />
+          <ComparisonColumn SelectColumn="Code" />
+          <ComparisonColumn SelectColumn="LangName" />
+          <ComparisonColumn SelectColumn="AppPageId" />
+          <ComparisonColumn SelectColumn="DisplayOrder" />
+          <ComparisonColumn SelectColumn="Memo" />
+          <ComparisonColumn SelectColumn="IsEntryEnable" />
+          <ComparisonColumn SelectColumn="EntryCondition" />
+          <ComparisonColumn SelectColumn="ActionLinkId" />
+          <ComparisonColumn SelectColumn="ProcessType" />
+          <ComparisonColumn SelectColumn="ProcessorLinkId" />
+          <ComparisonColumn SelectColumn="JumpTypeBinary" />
+          <ComparisonColumn SelectColumn="JumpNodeId" />
+          <ComparisonColumn SelectColumn="CopyLinkId" />
+          <ComparisonColumn SelectColumn="InformLinkId" />
+          <ComparisonColumn SelectColumn="ColumnLinkId" />
+          <ComparisonColumn SelectColumn="IsOvertimeInformEnable" />
+          <ComparisonColumn SelectColumn="OvertimeBeginTime" />
+          <ComparisonColumn SelectColumn="OvertimeIntervalTime" />
+          <ComparisonColumn SelectColumn="OvertimeInformLinkId" />
+          <ComparisonColumn SelectColumn="OvertimeInformEffectStartTime" />
+          <ComparisonColumn SelectColumn="OvertimeInformEffectEndTime" />
+          <ComparisonColumn SelectColumn="OvertimeInformNoEndTime" />
+          <ComparisonColumn SelectColumn="IsOvertimeActionEnable" />
+          <ComparisonColumn SelectColumn="OvertimeActionTime" />
+          <ComparisonColumn SelectColumn="OvertimeActionType" />
+          <ComparisonColumn SelectColumn="OvertimeActionEffectStartTime" />
+          <ComparisonColumn SelectColumn="OvertimeActionEffectEndTime" />
+          <ComparisonColumn SelectColumn="OvertimeActionNoEndTime" />
+          <ComparisonColumn SelectColumn="PreProcessorLinkId" />
+          <ComparisonColumn SelectColumn="IsExamineEnable" />
+          <ComparisonColumn SelectColumn="ExamineStandardTime" />
+          <ComparisonColumn SelectColumn="AutoCallType" />
+          <ComparisonColumn SelectColumn="AutoCallValue" />
+          <ComparisonColumn SelectColumn="SubWorkflowId" />
+          <ComparisonColumn SelectColumn="WfdWorkflowId" />
+          <ComparisonColumn SelectColumn="X" />
+          <ComparisonColumn SelectColumn="Y" />
+          <ComparisonColumn SelectColumn="Width" />
+          <ComparisonColumn SelectColumn="Height" />
+          <ComparisonColumn SelectColumn="ShapeType" />
+          <ComparisonColumn SelectColumn="ImageSrc" />
+          <ComparisonColumn SelectColumn="EnterpriseId" />
+          <ComparisonColumn SelectColumn="DisableRecall" />
         </ComparisonColumns>
         <!-- 对比数据筛选条件 -->
         <ComparisonCondition>
@@ -493,12 +149,7 @@
           </ConditionSql>
           <!-- 传递参数配置 -->
           <ReplaceParams>
-            <ReplaceParam>
-              <!-- 执行sql参数化字段名称  -->
-              <ParamName>WfdWorkflowId</ParamName>
-              <!-- 传入参数化获取数据时传入的字段名称 -->
-              <InputColunmnName>WorkflowId</InputColunmnName>
-            </ReplaceParam>
+            <ReplaceParam ParamName="WfdWorkflowId" InputColunmnName="WorkflowId"/>
           </ReplaceParams>
         </ComparisonCondition>
       </ComparisonTable>
@@ -513,73 +164,20 @@
         <PrimaryKey>Id</PrimaryKey>
         <!-- 需要对比的列 -->
         <ComparisonColumns>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Id</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn>Id</ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Type</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>LangName</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ReturnToNodes</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ActionLinkId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>DisplayOrder</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>VariableValue</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ForwardType</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ForwardValue</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ReturnToExceptNodes</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-           
+          <ComparisonColumn SelectColumn="Id" />
+          <ComparisonColumn SelectColumn="Type" />
+          <ComparisonColumn SelectColumn="LangName" />
+          <ComparisonColumn SelectColumn="IsEnable" />
+          <ComparisonColumn SelectColumn="ReturnToNodes" />
+          <ComparisonColumn SelectColumn="ActionLinkId" />
+          <ComparisonColumn SelectColumn="DisplayOrder" />
+          <ComparisonColumn SelectColumn="EnterpriseId" />
+          <ComparisonColumn SelectColumn="VariableValue" />
+          <ComparisonColumn SelectColumn="CreationTime" />
+          <ComparisonColumn SelectColumn="CreatorUserId" />
+          <ComparisonColumn SelectColumn="ForwardType" />
+          <ComparisonColumn SelectColumn="ForwardValue" />
+          <ComparisonColumn SelectColumn="ReturnToExceptNodes" />
         </ComparisonColumns>
         <!-- 对比数据筛选条件 -->
         <ComparisonCondition>
@@ -591,12 +189,7 @@
           </ConditionSql>
           <!-- 传递参数配置 -->
           <ReplaceParams>
-            <ReplaceParam>
-              <!-- 执行sql参数化字段名称  -->
-              <ParamName>WfdWorkflowId</ParamName>
-              <!-- 传入参数化获取数据时传入的字段名称 -->
-              <InputColunmnName>WorkflowId</InputColunmnName>
-            </ReplaceParam>
+            <ReplaceParam ParamName="WfdWorkflowId" InputColunmnName="WorkflowId"/>
           </ReplaceParams>
         </ComparisonCondition>
       </ComparisonTable>

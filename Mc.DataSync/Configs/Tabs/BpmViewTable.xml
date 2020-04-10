@@ -7,17 +7,14 @@
     <!-- Tab显示名称 -->
     <Name>视图</Name>
     <!-- 对应生成脚本sql -->
-    <Handler>workflow.sql</Handler>
+    <Handler>viewtable.sql</Handler>
     <!-- 对应显示数据脚本,必须要将作为参数的列查询出来,必须要有Id和text列 -->
     <GetSql>SELECT SchemaName AS [text] ,Id as ViewTableId,* FROM BpmViewTable</GetSql>
     <!-- 传递参数配置 -->
     <ReplaceParams>
-      <ReplaceParam>
-        <!-- 参数列字段  -->
-        <ParamName>SchemaName</ParamName>
-        <!-- 参数替换变量名称 -->
-        <InputColunmnName>viewName</InputColunmnName>
-      </ReplaceParam>
+      <!-- viewName 参数列字段  -->
+      <!-- SchemaName 参数替换变量名称 -->
+      <ReplaceParam ParamName="viewName" InputColunmnName="SchemaName"/>
     </ReplaceParams>
   </TabConfig>
   <!-- 对比配置 -->
@@ -34,50 +31,15 @@
         <PrimaryKey>Id</PrimaryKey>
         <!-- 需要对比的列 -->
         <ComparisonColumns>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Id</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>SchemaName</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>DataSql</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>LangName</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>LangDescription</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>SearchSql</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Type</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-  
+          <!-- SelectColumn 查询列字段或者函数 -->
+          <!-- ShowColumn 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
+          <ComparisonColumn SelectColumn="Id" />
+          <ComparisonColumn SelectColumn="SchemaName" />
+          <ComparisonColumn SelectColumn="DataSql" />
+          <ComparisonColumn SelectColumn="LangName" />
+          <ComparisonColumn SelectColumn="LangDescription" />
+          <ComparisonColumn SelectColumn="SearchSql" />
+          <ComparisonColumn SelectColumn="Type" />  
         </ComparisonColumns>
         <!-- 对比数据筛选条件 -->
         <ComparisonCondition>
@@ -87,12 +49,9 @@
           </ConditionSql>
           <!-- 传递参数配置 -->
           <ReplaceParams>
-            <ReplaceParam>
-              <!-- 执行sql参数化字段名称  -->
-              <ParamName>ViewTableId</ParamName>
-              <!-- 传入参数化获取数据时传入的字段名称 -->
-              <InputColunmnName>ViewTableId</InputColunmnName>
-            </ReplaceParam>
+            <!-- ParamName 执行sql参数化字段名称  -->
+            <!-- InputColunmnName 传入参数化获取数据时传入的字段名称 -->
+            <ReplaceParam ParamName="ViewTableId" InputColunmnName="ViewTableId" />
           </ReplaceParams>
         </ComparisonCondition>
       </ComparisonTable>
@@ -107,117 +66,24 @@
         <PrimaryKey>Id</PrimaryKey>
         <!-- 需要对比的列 -->
         <ComparisonColumns>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>Id</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>LangName</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>SchemaName</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsDisplayEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsLinkEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsWhereEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsOrderByEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsGroupByEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsAggregateEnable</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>DisplayOrder</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>IsDeleted</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ViewTableId</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>MappingName</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>SourceType</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ViewCode</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ConnectVarName</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>CharLength</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-          <ComparisonColumn>
-            <!-- 查询列字段或者函数 -->
-            <ComparisonSelectColumn>ByteLength</ComparisonSelectColumn>
-            <!-- 显示字段名称,如果为空则默认使用 ComparisonSelectColumn中的值 -->
-            <ComparisonShowColumn></ComparisonShowColumn>
-          </ComparisonColumn>
-
+          <ComparisonColumn SelectColumn="Id" />
+          <ComparisonColumn SelectColumn="LangName" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="SchemaName" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="IsDisplayEnable" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="IsLinkEnable" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="IsWhereEnable" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="IsOrderByEnable" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="IsGroupByEnable" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="IsAggregateEnable" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="DisplayOrder" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="IsDeleted" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="ViewTableId" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="MappingName" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="SourceType" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="ViewCode" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="ConnectVarName" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="CharLength" ShowColumn=""/>
+          <ComparisonColumn SelectColumn="ByteLength" ShowColumn=""/>
         </ComparisonColumns>
         <!-- 对比数据筛选条件 -->
         <ComparisonCondition>
@@ -226,13 +92,11 @@
             ViewTableId = @ViewTableId
           </ConditionSql>
           <!-- 传递参数配置 -->
+          <!-- 传递参数配置 -->
           <ReplaceParams>
-            <ReplaceParam>
-              <!-- 执行sql参数化字段名称  -->
-              <ParamName>ViewTableId</ParamName>
-              <!-- 传入参数化获取数据时传入的字段名称 -->
-              <InputColunmnName>ViewTableId</InputColunmnName>
-            </ReplaceParam>
+            <!-- ParamName 执行sql参数化字段名称  -->
+            <!-- InputColunmnName 传入参数化获取数据时传入的字段名称 -->
+            <ReplaceParam ParamName="ViewTableId" InputColunmnName="ViewTableId" />
           </ReplaceParams>
         </ComparisonCondition>
       </ComparisonTable>
