@@ -23,7 +23,7 @@ namespace Mc.DataSync
             MiniAbp.MiniAbp.StartWithSqlServer(GetConnectionString());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmSchemaComparison());
+            Application.Run(new FrmBuildMain());
         }
         /// <summary>
         /// 读取配置信息
