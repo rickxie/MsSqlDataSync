@@ -39,6 +39,911 @@ namespace Mc.DataSync.ReleaseBuild
 
         #region 对外接口
 
+        #region 1.架构比较接口
+
+        #region Sql获取语句
+
+        #region 1.获取所有表架构数据 CONST_SQL_GETALLTABLESCHEMA
+
+        /// <summary>
+        /// 获取所有表架构数据
+        /// </summary>
+        private const string CONST_SQL_GETALLTABLESCHEMA = @"
+--DECLARE @Name NVARCHAR(200)
+--SET @Name='t_depttemplat'
+SELECT d.name                     TableName, --表名
+       --a.colorder                 ColumnOrder,--序号
+       a.name                     ColumnName,--列名
+       (
+           CASE 
+                WHEN COLUMNPROPERTY(a.id ,a.name ,'IsIdentity')=1 THEN '1'
+                ELSE '0'
+           END
+       )                          IsIdentity,--是否自增
+       (
+           CASE 
+                WHEN (
+                         SELECT COUNT(*)
+                         FROM   sysobjects
+                         WHERE  (
+                                    NAME IN (SELECT NAME
+                                             FROM   sysindexes
+                                             WHERE  (id=a.id)  
+                                                    AND (
+                                                            indid IN (SELECT 
+                                                                             indid
+                                                                      FROM   
+                                                                             sysindexkeys
+                                                                      WHERE  (id = a.id)  
+                                                                             AND (
+                                                                                     colid IN (SELECT 
+                                                                                                      colid
+                                                                                               FROM   
+                                                                                                      syscolumns
+                                                                                               WHERE  (id = a.id)  
+                                                                                                      AND (NAME = a.name))
+                                                                                 ))
+                                                        ))
+                                )  
+                                AND (xtype='PK')
+                     )>0 THEN '1'
+                ELSE '0'
+           END
+       )                          IsPrimaryKey,
+       b.name [Type],
+       COLUMNPROPERTY(a.id ,a.name ,'PRECISION') AS [Length],
+       ISNULL(COLUMNPROPERTY(a.id ,a.name ,'Scale') ,0) AS Decimals,
+       (CASE WHEN a.isnullable=1 THEN '1' ELSE '0' END) [IsNull],
+       ISNULL(e.text ,'') [Default],
+       ISNULL(g.[value] ,' ')  AS [Description]
+FROM   syscolumns a
+       LEFT JOIN systypes b ON  a.xtype = b.xusertype
+       INNER JOIN sysobjects d ON  a.id = d.id AND  d.xtype = 'U' AND  d.name<>'dtproperties'
+       LEFT JOIN syscomments e ON  a.cdefault = e.id
+       LEFT JOIN sys.extended_properties g ON  a.id = g.major_id AND  a.colid = g.minor_id
+       LEFT JOIN sys.extended_properties f ON  d.id = f.class AND  f.minor_id = 0
+WHERE  b.name IS NOT NULL  
+       AND (@Name='' OR d.name = @Name) --增加一个条件,方便获取数据
+ORDER BY a.id,a.colorder
+
+        ";
+
+        #endregion
+
+        #region 2.获取所有视图和存储过程数据 CONST_SQL_GETVIEWANDPROCEDURE
+
+        /// <summary>
+        /// 获取所有视图和存储过程数据  返回字段:name,type,definition
+        /// </summary>
+        private const string CONST_SQL_GETVIEWANDPROCEDURE = @"
+            --获取数据表中所有的存储过程
+            SELECT (
+                       CASE 
+                            WHEN a.[type]='P' THEN N'P/\'
+                            WHEN a.[type]='V' THEN N'V/\'
+                            ELSE 'unknown'
+                       END
+                   )+a.Name         AS Id,
+                   a.Name,
+                   a.[Type],
+                   RTRIM(LTRIM( b.[Definition])) AS [Definition]
+            FROM   sys.all_objects     a,
+                   sys.sql_modules     b
+            WHERE  a.is_ms_shipped = 0  
+                   AND a.object_id = b.object_id  
+                   AND a.[type]  IN ('P' ,'V')
+            ORDER BY a.[name] ASC
+        ";
+
+        #endregion
+
+        #region 3.获取所有的数据库函数 CONST_SQL_GETFUNCTION
+        /// <summary>
+        /// 获取所有的数据库函数  返回字段:name,type,definition
+        /// </summary>
+        private const string CONST_SQL_GETFUNCTION = @"
+            --DECLARE @Name NVARCHAR(200)
+            --SET @Name='func_CheckInternalPermission'
+            --3.获取数据表中所有的函数
+            SELECT 'FN/\'+a.name AS Id, 
+                   a.Name,
+                   --a.[type],
+                   'FN' AS [Type],
+                   RTRIM(LTRIM( b.[Definition])) AS [Definition]
+            FROM   sys.all_objects     a,
+                   sys.sql_modules     b
+            WHERE  a.is_ms_shipped = 0  
+                   AND a.object_id = b.object_id  
+                   AND a.[type] IN ('AF' ,'FN' ,'TF' ,'FS' ,'FT' ,'IF')
+                   AND (@Name='' OR a.name = @Name) --增加一个条件,方便获取数据
+            ORDER BY a.[name] ASC
+
+        ";
+
+        #endregion
+
+        #region 4.获取新增表语句 CONST_SQL_GETCREATETABLESCRIPT
+
+        /// <summary>
+        /// 获取建表语句 
+        /// @TableName:表名
+        /// </summary>
+        public const string CONST_SQL_GETCREATETABLESCRIPT = @"
+--获取指定表建表语句
+--DECLARE @TableName     VARCHAR(100)
+--SET @TableName = 'AppBusinessTable'    --表名
+
+
+DECLARE @DbName        VARCHAR(40) --数据库名称
+       ,@SQL           VARCHAR(MAX)--输出脚本
+SET @DbName = (
+        SELECT '['+NAME+']'
+        FROM   MASTER..SysDataBases
+        WHERE  DbId                = (
+                   SELECT Dbid
+                   FROM   MASTER..SysProcesses
+                   WHERE  Spid     = @@spid
+               )
+    )
+
+DECLARE @table_script NVARCHAR(MAX) --建表的脚本
+DECLARE @index_script NVARCHAR(MAX) --索引的脚本
+DECLARE @default_script NVARCHAR(MAX) --默认值的脚本
+DECLARE @check_script NVARCHAR(MAX) --check约束的脚本
+DECLARE @columnDescription_script NVARCHAR(MAX) --字段备注脚本
+DECLARE @sql_cmd NVARCHAR(MAX)  --动态SQL命令
+DECLARE @err_info VARCHAR(200)
+--SET @tbname = UPPER(@tbname);
+IF OBJECT_ID(@DbName+'.dbo.'+@TableName) IS NULL
+BEGIN
+    SET @err_info = '对象:'+@DbName+'.dbo.'+@TableName+'不存在!'
+    RAISERROR(@err_info ,16 ,1)
+    RETURN
+END
+----------------------生成创建表脚本----------------------------
+--1.添加算定义字段
+SET @table_script = 'CREATE TABLE '+@TableName+'
+('+CHAR(13)+CHAR(10);
+ 
+ 
+--添加表中的其它字段
+SET @sql_cmd = N'
+use '+@DbName+
+    '
+set @table_script='''' 
+select @table_script=@table_script+
+        '' [''+t.NAME+''] ''
+        +(case when t.xusertype in (175,62,239,59,122,165,173) then ''[''+p.name+''] (''+convert(varchar(30),isnull(t.prec,''''))+'')''
+              when t.xusertype in (231) and t.length=-1 then ''[ntext]''
+              when t.xusertype in (231) and t.length<>-1 then ''[''+p.name+''] (''+convert(varchar(30),isnull(t.prec,''''))+'')''
+             when t.xusertype in (167) and t.length=-1 then ''[text]''
+              when t.xusertype in (167) and t.length<>-1 then ''[''+p.name+''] (''+convert(varchar(30),isnull(t.prec,''''))+'')''
+              when t.xusertype in (106,108) then ''[''+p.name+''] (''+convert(varchar(30),isnull(t.prec,''''))+'',''+convert(varchar(30),isnull(t.scale,''''))+'')''
+              else ''[''+p.name+'']''
+         END)
+         +(case when t.isnullable=1 then '' null'' else '' not null ''end)
+         +(case when COLUMNPROPERTY(t.ID, t.NAME, ''ISIDENTITY'')=1 then '' identity'' else '''' end)
+         +'',''+char(13)+char(10)
+from syscolumns t join systypes p  on t.xusertype = p.xusertype
+where t.ID=OBJECT_ID('''+@TableName+''')
+ORDER BY  t.COLID; 
+'
+
+EXEC sp_executesql @sql_cmd
+    ,N'@table_script varchar(max) output'
+    ,@sql_cmd OUTPUT
+
+SET @table_script = @table_script+@sql_cmd
+IF LEN(@table_script)>0
+    SET @table_script = SUBSTRING(@table_script ,1 ,LEN(@table_script)-3)+CHAR(13)
+       +CHAR(10)
+       +')'+CHAR(13)+CHAR(10)
+       +' '+CHAR(13)+CHAR(10)+CHAR(13)+CHAR(10)
+    
+--------------------生成索引脚本---------------------------------------
+SET @index_script = ''
+SET @sql_cmd = N'
+use '+@DbName+
+    '
+declare @ct int
+declare @indid int      --当前索引ID
+declare @p_indid int    --前一个索引ID
+select @indid=-1, @p_indid=0,@ct=0    --初始化，以后用@indid和@p_indid判断是否索引ID发生变化
+set @index_script=''''
+select @indid=INDID
+    ,@index_script=@index_script
+    +(case when @indid<>@p_indid and @ct>0 then '')''+char(13)+char(10)+'' ''+char(13)+char(10) else '''' end)
+    +(case when @indid<>@p_indid and UNIQ=''PRIMARY KEY'' 
+          then ''ALTER TABLE ''+TABNAME+'' ADD CONSTRAINT ''+name+'' PRIMARY KEY ''+cluster+char(13)+char(10)
+                +''(''+char(13)+char(10)
+                +''    ''+COLNAME+char(13)+char(10)
+          when @indid<>@p_indid and UNIQ=''UNIQUE'' 
+          then ''ALTER TABLE ''+TABNAME+'' ADD CONSTRAINT ''+name+'' UNIQUE ''+cluster+char(13)+char(10)
+                +''(''+char(13)+char(10)
+                +''    ''+COLNAME+char(13)+char(10)
+          when @indid<>@p_indid and UNIQ=''INDEX''     
+          then ''CREATE ''+cluster+'' INDEX ''+name+'' ON ''+TABNAME+char(13)+char(10)
+                +''(''+char(13)+char(10)
+                +''    ''+COLNAME+char(13)+char(10)
+          when @indid=@p_indid
+          then  ''    ,''+COLNAME+char(13)+char(10)
+     END) 
+    ,@ct=@ct+1
+    ,@p_indid=@indid
+from 
+(
+    SELECT A.INDID,B.KEYNO
+        ,REPLACE(NAME,''dbo.'','''') AS [Name],(SELECT NAME FROM SYSOBJECTS WHERE ID=A.ID) AS TABNAME,
+        (SELECT NAME FROM SYSCOLUMNS WHERE ID=B.ID AND COLID=B.COLID) AS COLNAME,
+        (CASE WHEN EXISTS(SELECT 1 FROM SYSOBJECTS WHERE NAME=A.NAME AND XTYPE=''UQ'') THEN ''UNIQUE'' 
+              WHEN EXISTS(SELECT 1 FROM SYSOBJECTS WHERE NAME=A.NAME AND XTYPE=''PK'') THEN ''PRIMARY KEY''
+              ELSE ''INDEX'' END)  AS UNIQ,
+        (CASE WHEN A.INDID=1 THEN ''CLUSTERED'' WHEN A.INDID>1 THEN ''NONCLUSTERED'' END) AS CLUSTER
+    FROM SYSINDEXES A INNER JOIN SYSINDEXKEYS B ON A.INDID=B.INDID AND A.ID=B.ID
+    WHERE A.ID=OBJECT_ID('''+@TableName+
+    ''') and a.indid<>0
+) t
+ORDER BY INDID,KEYNO'
+
+EXEC sp_executesql @sql_cmd
+    ,N'@index_script varchar(max) output'
+    ,@sql_cmd OUTPUT
+
+SET @index_script = @sql_cmd
+IF LEN(@index_script)>0
+    SET @index_script = @index_script+')'+CHAR(13)+CHAR(10)+' '+CHAR(13)+CHAR(10)
+       +CHAR(13)+CHAR(10)
+    
+--生成默认值约束
+SET @sql_cmd = '
+use '+@DbName+
+    '
+set @default_script=''''
+SELECT @default_script=@default_script
+        +''ALTER TABLE ''+OBJECT_NAME(O.PARENT_OBJ)
+        +'' ADD CONSTRAINT ''+O.NAME+'' default ''+t.text+'' for ''+C.NAME+char(13)+char(10)
+        +'' ''+char(13)+char(10)
+FROM SYSOBJECTS O INNER JOIN SYSCOMMENTS T ON O.ID=T.ID
+    INNER JOIN SYSCOLUMNS C ON O.PARENT_OBJ=C.ID AND C.CDEFAULT=T.ID
+WHERE O.XTYPE=''D'' AND O.PARENT_OBJ=OBJECT_ID('''+@TableName+''')'
+
+EXEC sp_executesql @sql_cmd
+    ,N'@default_script varchar(max) output'
+    ,@sql_cmd OUTPUT
+
+SET @default_script = @sql_cmd+CHAR(13)+CHAR(10)
+
+
+----------------------生成字段备注脚本 @columnDescription_script----------------------------
+
+SET @columnDescription_script = ''
+ --查询某一个表的结构
+SELECT @columnDescription_script = @columnDescription_script+(
+           '
+IF EXISTS(SELECT 1
+FROM   syscolumns a
+       INNER JOIN sysobjects d ON  a.id = d.id AND  d.xtype = ''U'' AND  d.name<>''dtproperties''
+       LEFT JOIN sys.extended_properties g ON  a.id = g.major_id AND  a.colid = 
+            g.minor_id
+WHERE  g.[value] IS NULL
+	   AND d.name = '''+d.name+'''   AND a.name='''+a.name+
+           '''
+)
+BEGIN
+       exec sp_addextendedproperty ''MS_Description'', '''+CONVERT(NVARCHAR(100) ,g.[value]) 
+          +''', ''user'', ''dbo'', ''table'', '''+CONVERT(NVARCHAR(100) ,d.name)
+          +''', ''column'', '''+CONVERT(NVARCHAR(100) ,a.name)+
+           '''
+END       
+ELSE
+BEGIN	
+	   exec sp_updateextendedproperty ''MS_Description'', '''+CONVERT(NVARCHAR(100) ,g.[value]) 
+          +''', ''user'', ''dbo'', ''table'', '''+CONVERT(NVARCHAR(100) ,d.name)
+          +''', ''column'', '''+CONVERT(NVARCHAR(100) ,a.name)+
+           '''
+END	   	   
+'
+       )
+FROM   syscolumns a
+       INNER JOIN sysobjects d ON  a.id = d.id AND  d.xtype = 'U' AND  d.name<>
+            'dtproperties'
+       LEFT JOIN sys.extended_properties g ON  a.id = g.major_id AND  a.colid = 
+            g.minor_id
+WHERE  g.[value] IS NOT NULL --获取有字段备注的列  
+       AND d.name = @TableName
+ORDER BY a.name
+ 
+----------------------最终拼接输出----------------------------
+--拼接创建表结构部分
+SET @SQL = 
+    ' 
+--创建表结构
+IF NOT EXISTS (
+       SELECT 1
+       FROM   sysobjects
+       WHERE  id           = OBJECT_ID('''+@TableName+
+    ''')  
+              AND TYPE     = ''U''
+   )
+BEGIN
+'+@table_script+@index_script+@default_script+'
+END
+GO
+'
+--拼接备注部分
+SET @SQL = @SQL+
+    '
+--添加备注信息
+ IF EXISTS (
+       SELECT 1
+       FROM   sysobjects
+       WHERE  id           = OBJECT_ID('''+@TableName+
+    ''')  
+              AND TYPE     = ''U''
+   )
+BEGIN
+PRINT '''+@TableName+'''
+'+@columnDescription_script+'
+END
+GO
+'
+
+DECLARE @len     INT
+       ,@n       INT
+
+SET @len = LEN(@SQL)
+SET @n = 0
+WHILE (@len>0)
+BEGIN
+    --PRINT(substring(@SQL,@n*4000+1,4000));
+    SET @n = @n+1
+    SET @len = @len-4000;
+END
+
+SELECT @SQL AS [SQL]
+
+        ";
+
+        #endregion
+
+        #endregion
+
+        #region table DataColumn 定义
+
+        /// <summary>
+        /// 表字段默认主键,Id
+        /// </summary>
+        public const string TABLE_DATACOLUMN_ID = "Id";
+        /// <summary>
+        /// 显示名称
+        /// </summary>
+        public const string TABLE_DATACOLUMN_NAME = "Name";
+        /// <summary>
+        /// 类型定义,T=表,P=存储过程,V=视图,FN=函数
+        /// </summary>
+        public const string TABLE_DATACOLUMN_TYPE = "Type";
+        /// <summary>
+        /// 定义内容
+        /// </summary>
+        public const string TABLE_DATACOLUMN_DEFINITION = "Definition";
+        /// <summary>
+        /// 状态,0正常,1新增,2修改
+        /// </summary>
+        public const string TABLE_DATACOLUMN_STATUS = "_Status";
+        /// <summary>
+        /// 是否选中
+        /// </summary>
+        public const string TABLE_DATACOLUMN_CHECKED = "_Checked";
+
+        #endregion
+
+
+        #region 对外开放接口
+
+        /// <summary>
+        /// 获取两边数据库中数据表架构的明细行
+        /// 表1:源数据表
+        /// 表2:目标数据表
+        /// </summary>
+        /// <param name="name">特定表名,如果不传则获取所有表</param>
+        /// <returns></returns>
+        public DataSet GetTableSchemaDetailRows(string name = "")
+        {
+            var p = new Dapper.DynamicParameters();
+            p.Add("Name", name);
+            return GetSourAndTargetData(CONST_SQL_GETALLTABLESCHEMA, p);
+        }
+
+        /// <summary>
+        /// 获取源数据和目标数据
+        /// </summary>
+        /// <param name="sql">执行语句</param>
+        /// <returns></returns>
+        public DataSet GetSourAndTargetData(string sql, DynamicParameters param = null)
+        {
+            var ds = new DataSet();
+
+            //当前数据
+            DataTable sourDt = DbDapper.RunDataTableSql(sql, param);
+            sourDt.TableName = Guid.NewGuid().ToString();
+            ds.Tables.Add(sourDt);
+
+            //目标数据
+            DataTable tarDt = DbTargetQuery(sql, param);
+            tarDt.TableName = Guid.NewGuid().ToString();
+            ds.Tables.Add(tarDt);
+
+            return ds;
+        }
+
+        /// <summary>
+        /// 获取指定类型名称对应的脚本内容
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public DataSet GetDiffText(string name, string type)
+        {
+            var p = new Dapper.DynamicParameters();
+            p.Add("Name", name);
+            if ("T" == type) return GetSourAndTargetData(CONST_SQL_GETALLTABLESCHEMA, p);
+            //1.1.1 获取函数 对比结果
+            else if ("FN" == type) return GetSourAndTargetData(CONST_SQL_GETFUNCTION, p);
+            //1.1.2 获取视图和存储过程 对比结果
+            else return GetSourAndTargetData(CONST_SQL_GETVIEWANDPROCEDURE, p);
+        }
+
+        /// <summary>
+        /// 根据表名,根据差异点生成可自行数据库脚本
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <param name="status">新增=1,修改=2</param>
+        /// <returns></returns>
+        public string GenerateTableSchemaScript(string name, int status)
+        {
+
+            //新增
+            if (status == 1)
+            {
+                var dt = DbDapper.RunDataTableSql(CONST_SQL_GETCREATETABLESCRIPT, new { TableName = name });
+                return Convert.ToString(dt.Rows[0][0]);
+            }
+            //修改
+            else if (status == 2)
+            {
+                var ds = GetTableSchemaDetailRows(name);
+
+                //当前数据
+                DataTable sourDt = ds.Tables[0];
+                //目标数据
+                DataTable tarDt = ds.Tables[1];
+
+                var sb = new StringBuilder();
+                var noLengthColumnTypeList = new List<string>() { "bigint", "bit", "date", "datetime", "float", "geography", "geometry", "hierarchyid", "image", "int", "money", "ntext", "real", "smalldatetime", "smallint", "smallmoney", "sql_variant", "text", "timestamp", "tinyint", "uniqueidentifier", "xml" };
+
+                string tableName, columnName, isIdentity, type, isNull, defaultValue, description;
+                int length, decimals, isPrimaryKey;
+                foreach (DataRow sourRow in sourDt.Rows)
+                {
+                    tableName = sourRow["TableName"].ToString();
+                    columnName = sourRow["ColumnName"].ToString();
+                    isIdentity = sourRow["ColumnName"].ToString();
+                    isPrimaryKey = Convert.ToInt32(sourRow["IsIdentity"]);
+                    length = Convert.ToInt32(sourRow["Length"]);
+                    decimals = Convert.ToInt32(sourRow["Decimals"]);
+                    var _type = sourRow["Type"].ToString();
+                    if (noLengthColumnTypeList.Contains(_type))
+                    {
+                        type = _type;
+                    }
+                    else
+                    {
+                        //decimal(18, 0)  numeric(18, 0)
+                        if (_type == "decimal" || _type == "numeric")
+                            type = _type + "(" + length + ", " + decimals + ")";
+                        else if (length == -1)
+                            type = _type + "(MAX)";
+                        else
+                            type = _type + "(" + length + ")";
+                    }
+
+                    isNull = Convert.ToInt32(sourRow["IsNull"]) == 1 ? " NULL " : " NOT NULL ";
+                    if (!string.IsNullOrEmpty(sourRow["Default"].ToString()))
+                    {
+                        if (sourRow["Default"].ToString().ToLower() == "getdate()")
+                            defaultValue = " DEFAULT(GETDATE()) ";
+                        else
+                            defaultValue = " DEFAULT('" + sourRow["Default"].ToString() + "') ";
+                    }
+                    else
+                    {
+                        defaultValue = "";
+                    }
+                    description = sourRow["Description"].ToString();
+
+                    var tarRows = tarDt.Select("ColumnName = '" + columnName + "'");
+                    //1.判断是否为新增列
+                    if (tarRows.Count() == 0)
+                    {
+                        sb.AppendLine(@"ALTER TABLE " + tableName + " ADD " + columnName + " " + type + " " + defaultValue + " " + isNull + "");
+                        sb.AppendLine("GO");
+                    }
+                    //2.否则就是修改项
+                    else
+                    {
+                        var tarRow = tarRows[0];
+
+                        //如果内容一致,则不需要生成
+                        if (sourRow.ItemArray.SerializeJson() == tarRow.ItemArray.SerializeJson()) continue;
+
+                        //2.1 判断是否为字段类型,长度修改
+                        sb.AppendLine("ALTER TABLE " + tableName + " ALTER COLUMN " + columnName + " " + type + " " + defaultValue + " " + isNull + "");
+                        sb.AppendLine("GO");
+
+                        //2.2.判断是否为备注修改
+                        if (description != tarRow["Description"].ToString())
+                        {
+                            sb.AppendLine(@" 
+IF EXISTS(SELECT 1
+FROM   syscolumns a
+       INNER JOIN sysobjects d ON  a.id = d.id AND  d.xtype = 'U' AND  d.name<>'dtproperties'
+       LEFT JOIN sys.extended_properties g ON  a.id = g.major_id AND  a.colid =
+            g.minor_id
+WHERE  g.[value] IS NULL
+          AND d.name = '" + tableName + @"' 
+       AND a.name = 'IsDeleted1' )
+       exec sp_addextendedproperty 'MS_Description', '" + description + @"', 'user', 'dbo', 'table', '" + tableName + @"', 'column', '" + columnName + @"'
+ELSE
+           exec sp_updateextendedproperty 'MS_Description', '" + description + @"', 'user', 'dbo', 'table', '" + tableName + @"', 'column', '" + columnName + @"'
+GO;
+                            ");
+
+
+
+                        }
+
+                        //2.3.判断是否为主键不一致
+                        if (isPrimaryKey != Convert.ToInt32(tarRow["IsPrimaryKey"]))
+                        {
+
+                            //如果不一致,先移除主键
+                            sb.AppendLine(@" 
+DECLARE @Pk VARCHAR(200);
+SELECT @Pk = NAME
+FROM   sysobjects
+WHERE  parent_obj     = OBJECT_ID('" + tableName + @"')  
+       AND xtype      = 'PK';
+IF @Pk IS NOT NULL
+BEGIN
+    EXEC ('ALTER TABLE " + tableName + @" DROP '+@Pk)
+END
+GO
+                            ");
+
+                            //新增主键
+                            if (1 == isPrimaryKey)
+                            {
+                                sb.AppendLine(@"ALTER TABLE " + tableName + @" ADD CONSTRAINT PK_" + tableName + @" PRIMARY KEY(" + columnName + @") ");
+                                sb.AppendLine("GO");
+                            }
+
+                        }
+
+                    }
+
+
+
+
+                    //4.判断默认值是否不一致 XX
+
+                    //5.判断自增是否不一致 XX
+
+                    //6.索引是否一致 XX
+                }
+
+                return sb.ToString();
+
+            }
+            else
+            {
+                return string.Format(" --[TODO]传入的类型暂不处理 name:{0} status:{1}", name, status);
+            }
+
+
+        }
+
+        /// <summary>
+        /// 追加其它校验脚本
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public string AppendOtherSchemaCheckScript(string name, string type)
+        {
+
+            if ("P" == type)
+            {
+                return @"
+                    IF EXISTS (
+                           SELECT *
+                           FROM   dbo.sysobjects
+                           WHERE  id = OBJECT_ID(N'[dbo].[" + name + @"]')  
+                                  AND OBJECTPROPERTY(id ,N'IsProcedure') = 1
+                       )
+                        -- 删除存储过程 
+                        DROP PROCEDURE [dbo].[" + name + @"] 
+                    GO 
+                ";
+
+            }
+            else if ("V" == type)
+            {
+                return @"
+                    -- 判断要创建的视图名是否存在 
+                    IF EXISTS (
+                           SELECT *
+                           FROM   dbo.sysobjects
+                           WHERE  id = OBJECT_ID(N'[dbo].[" + name + @"]')  
+                                  AND OBJECTPROPERTY(id ,N'IsView') = 1
+                       )
+                        -- 删除视图 
+                        DROP VIEW [dbo].[" + name + @"] 
+                    GO
+                ";
+
+            }
+            else if ("FN" == type)
+            {
+                return @"
+                    IF EXISTS (
+                           SELECT *
+                           FROM   dbo.sysobjects
+                           WHERE  id = OBJECT_ID(N'[dbo].[" + name + @"]')  
+                                  AND xtype IN ('AF' ,'FN' ,'TF' ,'FS' ,'FT' ,'IF')
+                       )
+                        -- 删除函数 
+                        DROP FUNCTION [dbo].[" + name + @"] 
+                    GO 
+                ";
+
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// 获取所有对比架构数据列表
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllSchemaData()
+        {
+            // 0.创建返回表数据结构
+            DataTable returnDt = new DataTable();
+            //增加字段列
+            returnDt.Columns.AddRange(new DataColumn[] {
+                new DataColumn(TABLE_DATACOLUMN_ID, typeof(string)),//唯一标识
+                new DataColumn(TABLE_DATACOLUMN_NAME, typeof(string)),//显示名称
+                new DataColumn(TABLE_DATACOLUMN_TYPE, typeof(string)),//类型定义,T=表,P=存储过程,V=视图,FN=函数
+                new DataColumn(TABLE_DATACOLUMN_DEFINITION, typeof(string)), //定义内容
+                new DataColumn(TABLE_DATACOLUMN_STATUS, typeof(string)), //状态,0正常,1新增,2修改 
+                new DataColumn(TABLE_DATACOLUMN_CHECKED, typeof(bool)) //是否选中
+            });
+
+            //1.1.0 获取表
+            #region 获取表对比结果
+
+            var ds = GetTableSchemaDetailRows();
+
+            //转换源数据
+            var tempSourDt = TableSchemaConvert(ds.Tables[0]);
+
+            //转换目标数据
+            var tempTarDt = TableSchemaConvert(ds.Tables[1]);
+
+            //1.1.1 获取表 对比结果
+            AppendSchemaComparisonToTable(tempSourDt, tempTarDt, returnDt);
+
+            #endregion
+
+            //1.1.1 获取函数 对比结果
+            var p = new Dapper.DynamicParameters();
+            p.Add("Name", "");
+            var funDs = GetSourAndTargetData(CONST_SQL_GETFUNCTION, p);
+            AppendSchemaComparisonToTable(funDs.Tables[0], funDs.Tables[1], returnDt);
+
+            //1.1.2 获取视图和存储过程 对比结果
+            var viewAndProcDs = GetSourAndTargetData(CONST_SQL_GETVIEWANDPROCEDURE, p);
+            AppendSchemaComparisonToTable(viewAndProcDs.Tables[0], viewAndProcDs.Tables[1], returnDt);
+
+            //1.3 返回最终对比结果数据
+            return returnDt;
+        }
+
+        /// <summary>
+        /// 获取指定脚本的架构对比数据,并且追加到集合中
+        /// </summary>
+        /// <param name="sourDt">源数据</param>
+        /// <param name="tarDt">目标数据</param>
+        /// <param name="returnDt">追加返回对象</param>
+        private void AppendSchemaComparisonToTable(DataTable sourDt, DataTable tarDt, DataTable returnDt)
+        {
+            //获取对比结果
+            var functionDs = SchemaComparison(sourDt, tarDt, TABLE_DATACOLUMN_ID);
+
+            //新增的项
+            foreach (DataRow item in functionDs.Tables[TableName_OnlySourceData].Rows)
+            {
+                var newRow = returnDt.NewRow();
+                newRow[TABLE_DATACOLUMN_ID] = item[TABLE_DATACOLUMN_ID];
+                newRow[TABLE_DATACOLUMN_NAME] = item[TABLE_DATACOLUMN_NAME];
+                newRow[TABLE_DATACOLUMN_TYPE] = item[TABLE_DATACOLUMN_TYPE];
+                newRow[TABLE_DATACOLUMN_DEFINITION] = item[TABLE_DATACOLUMN_DEFINITION];
+                newRow[TABLE_DATACOLUMN_STATUS] = "1";
+                returnDt.Rows.Add(newRow);
+            }
+
+            //修改的项
+            foreach (DataRow item in functionDs.Tables[TableName_DifferentData].Rows)
+            {
+                var newRow = returnDt.NewRow();
+                newRow[TABLE_DATACOLUMN_ID] = item[SourColumnPrefix + TABLE_DATACOLUMN_ID];
+                newRow[TABLE_DATACOLUMN_NAME] = item[SourColumnPrefix + TABLE_DATACOLUMN_NAME];
+                newRow[TABLE_DATACOLUMN_TYPE] = item[SourColumnPrefix + TABLE_DATACOLUMN_TYPE];
+                newRow[TABLE_DATACOLUMN_DEFINITION] = item[SourColumnPrefix + TABLE_DATACOLUMN_DEFINITION];
+                newRow[TABLE_DATACOLUMN_STATUS] = "2";
+                returnDt.Rows.Add(newRow);
+            }
+
+            ////一致的项
+            //foreach (DataRow item in functionDs.Tables[TableName_SameData].Rows)
+            //{
+            //    var newRow = returnDt.NewRow();
+            //    newRow[TABLE_DATACOLUMN_ID] = item[TABLE_DATACOLUMN_ID];
+            //    newRow[TABLE_DATACOLUMN_NAME] = item[TABLE_DATACOLUMN_NAME];
+            //    newRow[TABLE_DATACOLUMN_TYPE] = item[TABLE_DATACOLUMN_TYPE];
+            //    newRow[TABLE_DATACOLUMN_DEFINITION] = item[TABLE_DATACOLUMN_DEFINITION];
+            //    newRow[TABLE_DATACOLUMN_STATUS] = "0";
+            //    returnDt.Rows.Add(newRow);
+            //}
+
+            ////删除的项
+            //foreach (DataRow item in functionDs.Tables[TableName_OnlyTargetData].Rows)
+            //{
+            //    var newRow = returnDt.NewRow();
+            //    newRow[TABLE_DATACOLUMN_ID] = item[TABLE_DATACOLUMN_ID];
+            //    newRow[TABLE_DATACOLUMN_NAME] = item[TABLE_DATACOLUMN_NAME];
+            //    newRow[TABLE_DATACOLUMN_TYPE] = item[TABLE_DATACOLUMN_TYPE];
+            //    newRow[TABLE_DATACOLUMN_DEFINITION] = item[TABLE_DATACOLUMN_DEFINITION];
+            //    newRow[TABLE_DATACOLUMN_STATUS] = "3";
+            //    returnDt.Rows.Add(newRow);
+            //}
+        }
+
+        /// <summary>
+        /// 将表结构转换为一行表的对比数据
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        private DataTable TableSchemaConvert(DataTable dt)
+        {
+
+            // 0.创建返回表数据结构
+            DataTable returnDt = new DataTable();
+            //增加字段列
+            returnDt.Columns.AddRange(new DataColumn[] {
+                new DataColumn(TABLE_DATACOLUMN_ID, typeof(string)),//唯一标识
+                new DataColumn(TABLE_DATACOLUMN_NAME, typeof(string)),//显示名称
+                new DataColumn(TABLE_DATACOLUMN_TYPE, typeof(string)),//类型定义,T=表,P=存储过程,V=视图,FN=函数
+                new DataColumn(TABLE_DATACOLUMN_DEFINITION, typeof(string)) //定义内容
+            });
+
+            var tempTableKey = new List<string>();
+            string tableName = string.Empty;
+            //转换源数据
+            foreach (DataRow item in dt.Rows)
+            {
+                tableName = Convert.ToString(item["TableName"]);
+                if (tempTableKey.Contains(tableName)) continue;
+
+                tempTableKey.Add(tableName);
+                var newRow = returnDt.NewRow();
+                newRow[TABLE_DATACOLUMN_ID] = @"T/\" + item["TableName"];
+                newRow[TABLE_DATACOLUMN_NAME] = item["TableName"];
+                newRow[TABLE_DATACOLUMN_TYPE] = "T";
+                newRow[TABLE_DATACOLUMN_DEFINITION] = (dt.Select(" TableName = '" + tableName + "'").CopyToDataTable().SerializeJson());
+                returnDt.Rows.Add(newRow);
+            }
+
+            return returnDt;
+        }
+
+
+        /// <summary>
+        /// 对比两个结构相同的表,返回对比结果
+        /// DifferentData:不同数据.
+        /// OnlySourceData:只在源中的数据.
+        /// OnlyTargetData:只在目标中的数据.
+        /// SameData:相同记录.
+        /// </summary>
+        /// <param name="sourDt">当前数据</param>
+        /// <param name="tarDt">目标数据</param>
+        /// <param name="primaryKey">主键字段</param>
+        /// <returns></returns>
+        private DataSet SchemaComparison(DataTable sourDt, DataTable tarDt, string primaryKey)
+        {
+            DataSet ds = new DataSet();
+            #region 3.获取数据进行对比
+
+            //1.获取相同记录(Intersect 求两个集合的交集,两边同时存在)
+            var sameDataDt = sourDt.Clone();//仅复制表结构
+            var tempRows = sourDt.AsEnumerable().Intersect(tarDt.AsEnumerable(), DataRowComparer.Default);
+            if (tempRows.Count() > 0)
+            {
+                sameDataDt = tempRows.CopyToDataTable();
+            }
+            sameDataDt.TableName = TableName_SameData;
+            ds.Tables.Add(sameDataDt);
+
+
+            //2.获取只在源中的数据(Except 差集,当前集合中存在,而在目标集合中不存在)
+            var onlySourceDataRows = from r in sourDt.AsEnumerable()
+                                     where
+                                         !(from rr in tarDt.AsEnumerable() select rr.Field<string>(primaryKey)).Contains(r.Field<string>(primaryKey))
+                                     select r;
+            var onlySourceDataDt = sourDt.Clone();//仅复制表结构
+            if (onlySourceDataRows.Count() > 0)
+            {
+                onlySourceDataDt = onlySourceDataRows.CopyToDataTable();
+            }
+            onlySourceDataDt.TableName = TableName_OnlySourceData;
+            ds.Tables.Add(onlySourceDataDt);
+
+            //3.获取只在目标中的数据(Except 差集,当前集合中存在,而在目标集合中不存在)
+            var onlyTargetDataRows = from r in tarDt.AsEnumerable()
+                                     where
+                                         !(from rr in sourDt.AsEnumerable() select rr.Field<string>(primaryKey)).Contains(r.Field<string>(primaryKey))
+                                     select r;
+            var onlyTargetDataDt = tarDt.Clone();//仅复制表结构
+            if (onlyTargetDataRows.Count() > 0)
+            {
+                onlyTargetDataDt = onlyTargetDataRows.CopyToDataTable();
+            }
+            onlyTargetDataDt.TableName = TableName_OnlyTargetData;
+            ds.Tables.Add(onlyTargetDataDt);
+
+            //4.不同数据(主键一致,部分数据内容中存在不一致的数据)
+            var differentDataDt = sourDt.Clone();
+            //4.1 先获取两边主键Id一致的数据
+            var samePrimaryKeyRows = from r in sourDt.AsEnumerable()
+                                     where
+                                         (from rr in tarDt.AsEnumerable() select rr.Field<string>(primaryKey)).Contains(r.Field<string>(primaryKey))
+                                     select r;
+            //4.2 拿主键一致的数据去目标数据中做对比,拿出不一致的数据
+            var differentDataRows = samePrimaryKeyRows.Except(tarDt.AsEnumerable(), DataRowComparer.Default);
+            if (differentDataRows.Count() > 0)
+            {
+                differentDataDt = differentDataRows.CopyToDataTable();
+            }
+
+            var tempDt = MergeDataTable(differentDataDt, tarDt, primaryKey);
+            tempDt.TableName = TableName_DifferentData;
+            ds.Tables.Add(tempDt);
+
+
+            #endregion
+
+            return ds;
+
+        }
+
+
+        #endregion
+
+
+        #endregion
+
+        #region 2.数据对比
+
         /// <summary>
         /// 根据配置文件目录,获取所有的tabs对象
         /// </summary>
@@ -216,7 +1121,6 @@ namespace Mc.DataSync.ReleaseBuild
             return ds;
         }
 
-
         /// <summary>
         /// 将指定xml配置文件转换为配置对象,无权限或者路径不存在则抛出异常
         /// </summary>
@@ -242,6 +1146,7 @@ namespace Mc.DataSync.ReleaseBuild
 
         #endregion
 
+        #endregion
 
         #region 私有辅助方法
 

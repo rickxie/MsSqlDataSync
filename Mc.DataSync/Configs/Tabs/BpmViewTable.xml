@@ -9,14 +9,14 @@
     <!-- 对应生成脚本sql -->
     <Handler>workflow.sql</Handler>
     <!-- 对应显示数据脚本,必须要将作为参数的列查询出来,必须要有Id和text列 -->
-    <GetSql>SELECT ISNULL(Directory, '')+'\' + SchemaName + '(' + ISNULL(dbo.L(langname,'zh-CN'),'未定义')+ ')'  AS [text] ,Id as ViewTableId,* FROM BpmViewTable ORDER BY Directory, SchemaName</GetSql>
+    <GetSql>SELECT SchemaName AS [text] ,Id as ViewTableId,* FROM BpmViewTable</GetSql>
     <!-- 传递参数配置 -->
     <ReplaceParams>
       <ReplaceParam>
         <!-- 参数列字段  -->
-        <ParamName>viewName</ParamName>
+        <ParamName>Id</ParamName>
         <!-- 参数替换变量名称 -->
-        <InputColunmnName>SchemaName</InputColunmnName>
+        <InputColunmnName>ViewTableId</InputColunmnName>
       </ReplaceParam>
     </ReplaceParams>
   </TabConfig>
