@@ -14,9 +14,9 @@
     <ReplaceParams>
       <ReplaceParam>
         <!-- 参数列字段  -->
-        <ParamName>Id</ParamName>
+        <ParamName>SchemaName</ParamName>
         <!-- 参数替换变量名称 -->
-        <InputColunmnName>ViewTableId</InputColunmnName>
+        <InputColunmnName>viewName</InputColunmnName>
       </ReplaceParam>
     </ReplaceParams>
   </TabConfig>
