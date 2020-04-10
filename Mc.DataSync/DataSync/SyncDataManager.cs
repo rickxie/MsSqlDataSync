@@ -87,12 +87,12 @@ namespace Mc.DataSync.DataSync
             Columns = new List<SyncColumn>();
             foreach (DataColumn column in Table.Columns)
             {
-                var inTable = ColumnInTable(column.ColumnName);
+                var inTable = true;//ColumnInTable(column.ColumnName);
                 string defaultValue = "NULL";
-                if (!inTable)
-                {
-                    defaultValue = Table.Rows.Count > 0 ? Table.Rows[0][column.ColumnName].ToString() : "NULL";
-                }
+                //if (!inTable)
+                //{
+                //    defaultValue = Table.Rows.Count > 0 ? Table.Rows[0][column.ColumnName].ToString() : "NULL";
+                //}
                 Columns.Add(new SyncColumn()
                 {
                     Name = column.ColumnName,
@@ -108,7 +108,8 @@ namespace Mc.DataSync.DataSync
         /// <returns></returns>
         private void BuildQuery()
         {
-            List<string> newInsertColumns = Columns.Where(r=>r.InTable).Select(column => newColumnFormat.Fill(column.Name)).ToList();
+            List<string> newInsertColumns = Columns.Where(r=>r.InTable)
+                .Select(column => newColumnFormat.Fill(column.Name)).ToList();
             List<string> allDefaultColumns = Columns.Where(r => !r.InTable).Select(columns => "'N''{0}'''".Fill(columns.DefaultValue)).ToList();
             newInsertColumns.AddRange(allDefaultColumns);
             var singleInsertQuery = newInsertFormat.Fill(TableName, string.Join("],[", Columns.Select(r=>r.Name)),

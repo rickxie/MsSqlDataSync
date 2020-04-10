@@ -108,17 +108,17 @@
     <Compile Include="ReleaseBuild\FrmComparisonDetail.Designer.cs">
       <DependentUpon>FrmComparisonDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="ReleaseBuild\FrmSchemaComparison.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ReleaseBuild\FrmSchemaComparison.Designer.cs">
-      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
-    </Compile>
     <Compile Include="ReleaseBuild\FrmReleaseBuild.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ReleaseBuild\FrmReleaseBuild.Designer.cs">
       <DependentUpon>FrmReleaseBuild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReleaseBuild\FrmSchemaComparison.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReleaseBuild\FrmSchemaComparison.Designer.cs">
+      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
     </Compile>
     <Compile Include="ReleaseBuild\ReleaseBuildHelper.cs" />
     <Compile Include="ReleaseBuild\WinCompare.cs">
@@ -155,15 +155,16 @@
     <EmbeddedResource Include="ReleaseBuild\FrmComparisonDetail.resx">
       <DependentUpon>FrmComparisonDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ReleaseBuild\FrmSchemaComparison.resx">
-      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ReleaseBuild\FrmReleaseBuild.resx">
       <DependentUpon>FrmReleaseBuild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReleaseBuild\FrmSchemaComparison.resx">
+      <DependentUpon>FrmSchemaComparison.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReleaseBuild\WinCompare.resx">
       <DependentUpon>WinCompare.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\DataSources\FrmDashboard.NameAndSql.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -175,22 +176,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="UI\lib\zui\fonts\zenicon.eot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="UI\lib\zui\fonts\zenicon.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="UI\lib\zui\fonts\zenicon.woff">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Configs\Handlers\table.sql">
+    <Content Include="Configs\Handlers\enum.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configs\Handlers\viewtable.sql">
@@ -218,88 +214,88 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\display\fullscreen.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\display\fullscreen.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\edit\closebrackets.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\edit\closetag.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\edit\continuelist.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\edit\matchbrackets.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\edit\matchtags.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\edit\trailingspace.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\fold\xml-fold.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\merge\merge.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\merge\merge.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\addon\selection\active-line.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\lib\codemirror.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\lib\codemirror.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\mode\clike\clike.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\mode\css\css.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\mode\htmlmixed\htmlmixed.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\mode\javascript\javascript.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\mode\xml\xml.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\codemirror-5.39.0\theme\visual-studio-2012.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\diff-match-patch\javascript\diff_match_patch.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\jquery-3.3.1.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\zui\css\zui-theme.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\zui\css\zui.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\zui\fonts\zenicon.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\zui\js\zui.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\zui\lib\datatable\zui.datatable.min.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UI\lib\zui\lib\datatable\zui.datatable.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\QQ图片20160809200711.png" />
   </ItemGroup>

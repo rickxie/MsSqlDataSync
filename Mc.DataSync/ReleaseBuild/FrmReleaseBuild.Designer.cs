@@ -56,13 +56,13 @@
             this.tabReleaseList.Location = new System.Drawing.Point(8, 22);
             this.tabReleaseList.Name = "tabReleaseList";
             this.tabReleaseList.SelectedIndex = 0;
-            this.tabReleaseList.Size = new System.Drawing.Size(367, 23);
+            this.tabReleaseList.Size = new System.Drawing.Size(366, 23);
             this.tabReleaseList.TabIndex = 0;
             this.tabReleaseList.SelectedIndexChanged += new System.EventHandler(this.tabReleaseList_SelectedIndexChanged);
             // 
             // btn_ComparisonAll
             // 
-            this.btn_ComparisonAll.Location = new System.Drawing.Point(327, 55);
+            this.btn_ComparisonAll.Location = new System.Drawing.Point(328, 57);
             this.btn_ComparisonAll.Name = "btn_ComparisonAll";
             this.btn_ComparisonAll.Size = new System.Drawing.Size(75, 23);
             this.btn_ComparisonAll.TabIndex = 4;
@@ -72,7 +72,7 @@
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(272, 55);
+            this.btn_search.Location = new System.Drawing.Point(274, 57);
             this.btn_search.Name = "btn_search";
             this.btn_search.Size = new System.Drawing.Size(49, 23);
             this.btn_search.TabIndex = 3;
@@ -82,7 +82,7 @@
             // 
             // txt_SearchText
             // 
-            this.txt_SearchText.Location = new System.Drawing.Point(44, 58);
+            this.txt_SearchText.Location = new System.Drawing.Point(46, 58);
             this.txt_SearchText.Name = "txt_SearchText";
             this.txt_SearchText.Size = new System.Drawing.Size(224, 21);
             this.txt_SearchText.TabIndex = 2;
@@ -110,7 +110,7 @@
             this.listV_ShowData.HideSelection = false;
             this.listV_ShowData.Location = new System.Drawing.Point(8, 117);
             this.listV_ShowData.Name = "listV_ShowData";
-            this.listV_ShowData.Size = new System.Drawing.Size(403, 446);
+            this.listV_ShowData.Size = new System.Drawing.Size(402, 446);
             this.listV_ShowData.TabIndex = 0;
             this.listV_ShowData.UseCompatibleStateImageBehavior = false;
             this.listV_ShowData.View = System.Windows.Forms.View.Details;
@@ -144,7 +144,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.btnGenerate);
             this.splitContainer1.Size = new System.Drawing.Size(975, 572);
-            this.splitContainer1.SplitterDistance = 415;
+            this.splitContainer1.SplitterDistance = 414;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 5;
             // 
@@ -168,25 +168,28 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(555, 486);
+            this.groupBox1.Size = new System.Drawing.Size(557, 486);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "选择结果";
             // 
             // tbResult
             // 
+            this.tbResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbResult.Location = new System.Drawing.Point(4, 19);
             this.tbResult.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbResult.Multiline = true;
             this.tbResult.Name = "tbResult";
-            this.tbResult.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.tbResult.Size = new System.Drawing.Size(541, 454);
+            this.tbResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbResult.Size = new System.Drawing.Size(542, 454);
             this.tbResult.TabIndex = 0;
             // 
             // btnGenerate
             // 
             this.btnGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGenerate.Location = new System.Drawing.Point(422, 534);
+            this.btnGenerate.Location = new System.Drawing.Point(424, 534);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(126, 28);
             this.btnGenerate.TabIndex = 4;

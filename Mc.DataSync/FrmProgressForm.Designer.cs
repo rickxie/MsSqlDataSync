@@ -35,10 +35,10 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(0, 19);
+            this.progressBar1.Location = new System.Drawing.Point(27, 19);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(0);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(704, 19);
+            this.progressBar1.Size = new System.Drawing.Size(668, 21);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 0;
             // 
@@ -67,19 +67,20 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(704, 75);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lbl_percent);
             this.Controls.Add(this.progressBar1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmProgressForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "处理中....";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmProgressForm_FormClosing);
+            this.Text = "进度";
+            this.Load += new System.EventHandler(this.FrmProgressForm_Load);
             this.ResumeLayout(false);
 
         }
