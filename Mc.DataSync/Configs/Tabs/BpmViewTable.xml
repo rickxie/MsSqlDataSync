@@ -16,7 +16,7 @@
         <!-- 参数列字段  -->
         <ParamName>Id</ParamName>
         <!-- 参数替换变量名称 -->
-        <InputColunmnName>&lt;ViewTableId&gt;</InputColunmnName>
+        <InputColunmnName>ViewTableId</InputColunmnName>
       </ReplaceParam>
     </ReplaceParams>
   </TabConfig>

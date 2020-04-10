@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml" ng-app="app">
+<head>
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title></title>
+    <link href="lib/zui/css/zui.min.css" rel="stylesheet" />
+    <link href="lib/zui/css/zui-theme.min.css" rel="stylesheet" />
+    <link href="css/common.css" rel="stylesheet" />
+    <link href="lib/zui/lib/datatable/zui.datatable.min.css" rel="stylesheet" />
+    <script src="lib/jquery-3.3.1.min.js"></script>
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/zui/js/zui.min.js"></script>
+
+    <!-- code mirror -->
+    <link href="lib/codemirror-5.39.0/lib/codemirror.css" rel="stylesheet" />
+    <link href="lib/codemirror-5.39.0/theme/visual-studio-2012.css" rel="stylesheet" />
+    <link href="lib/codemirror-5.39.0/addon/merge/merge.css" rel="stylesheet" />
+
+    <script src="lib/codemirror-5.39.0/lib/codemirror.js"></script>
+    <script src="lib/diff-match-patch/javascript/diff_match_patch.js"></script>
+
+
+    <script src="lib/codemirror-5.39.0/mode/javascript/javascript.js"></script>
+    <script src="lib/codemirror-5.39.0/mode/css/css.js"></script>
+    <script src="lib/codemirror-5.39.0/mode/xml/xml.js"></script>
+    <script src="lib/codemirror-5.39.0/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="lib/codemirror-5.39.0/mode/clike/clike.js"></script>
+
+    <script src="lib/codemirror-5.39.0/addon/display/fullscreen.js"></script>
+    <script src="lib/codemirror-5.39.0/addon/edit/matchtags.js"></script>
+    <script src="lib/codemirror-5.39.0/addon/selection/active-line.js"></script>
+    <script src="lib/codemirror-5.39.0/addon/edit/closebrackets.js"></script>
+    <script src="lib/codemirror-5.39.0/addon/fold/xml-fold.js"></script>
+    <script src="lib/codemirror-5.39.0/addon/edit/matchtags.js"></script>
+    <script src="lib/codemirror-5.39.0/addon/merge/merge.js"></script>
+    <!-- \code mirror -->
+
+
+    <script src="js/compare.js"></script>
+
+    <style type="text/css">
+        .text-cs {
+            color: green;
+        }
+
+        .text-js {
+            color: orangered;
+        }
+
+        .text-css {
+            color: darkblue;
+        }
+
+        .text-html {
+            color: dimgrey;
+        }
+
+        .text-folder {
+            color: #e8b470;
+        }
+
+        .CodeMirror-merge {
+            border: 1px solid #eee;
+            height: calc(100vh - 60px);
+        }
+
+            .CodeMirror-merge .CodeMirror {
+                border: 1px solid #eee;
+                height: calc(100vh - 60px);
+            }
+
+        .CodeMirror.CodeMirror-fullscreen {
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+        }
+
+        .code-nav .navbar {
+            min-height: 0;
+            margin-bottom: 0;
+        }
+
+            .code-nav .navbar .nav a {
+                padding: 5px 8px;
+            }
+
+        .icon-spin-x {
+            animation: spin 2s infinite linear;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .btn-mini {
+            padding: 1px 5px;
+            margin: 0;
+        }
+    </style>
+    <style>
+        .CodeMirror {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+
+        span.cm-meta {
+            color: #a0b !important;
+        }
+
+        span.cm-error {
+            background-color: black;
+            opacity: 0.4;
+        }
+
+            span.cm-error.cm-string {
+                background-color: red;
+            }
+
+            span.cm-error.cm-tag {
+                background-color: #2b2;
+            }
+    </style>
+
+    <style type="text/css">
+        .CodeMirror {
+            line-height: 1.2;
+        }
+
+        @@media screen and (min-width: 1300px) {
+            article {
+                max-width: 1000px;
+            }
+
+            #nav {
+                border-right: 499px solid transparent;
+            }
+        }
+
+        span.clicky {
+            cursor: pointer;
+            background: #d70;
+            color: white;
+            padding: 0 3px;
+            border-radius: 3px;
+        }
+
+        .cm-s-visual-studio-2012.CodeMirror .CodeMirror-linebackground {
+            z-index: 0;
+        }
+
+        .panel-footer {
+            padding-top: 0;
+            margin-top: 0;
+            padding-bottom: 0;
+            padding-top: 0;
+        }
+
+        .panel-body {
+            padding-top: 8px;
+            padding-bottom: 3px;
+        }
+
+        .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+            background-color: #dde8f3;
+            color: #666;
+        }
+
+        .text-bold {
+            font-weight: bold;
+        }
+        .CodeMirror-sizer + div {
+            height:30px !important;
+        }
+    </style>
+</head>
+<body ng-controller="ctrl"  ng-cloak>
+    <div class="panel-heading" style="padding-bottom:0;">
+        <div class="row">
+            <div class="col-md-1 pull-right btn-group" style="text-align:right;">
+                <button class="btn btn-default btn-mini" ng-click="goPrev()" title="转到上一个变更"><i class="icon icon-arrow-up"></i></button> <button class="btn btn-default btn-mini" ng-click="goNext()" title="转到下一个变更"><i class="icon icon-arrow-down"></i></button>
+            </div>
+        </div>
+        <div class="row text-primary" style="text-align:center;margin-top:5px;"  >
+            <div class="col-md-6 col-xs-6 text-danger">源内容 <i class="icon icon-lock"></i></div>
+            <div class="col-md-6 col-xs-6">目标内容 <i class="icon icon-lock"></i></div>
+        </div>
+    </div>
+    <div class="panel-body" style="overflow:hidden;margin-top:0;padding-top:0;">
+        <div id="view" style="box-sizing: border-box;"></div>
+    </div>
+    <div class="panel-footer">{{vm.fileName}}</div>
+</body>
+</html>
