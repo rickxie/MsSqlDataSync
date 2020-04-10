@@ -71,14 +71,15 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lbl_percent);
             this.Controls.Add(this.progressBar1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmProgressForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FrmProgressForm";
+            this.Text = "处理中....";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmProgressForm_FormClosing);
             this.ResumeLayout(false);
 
         }

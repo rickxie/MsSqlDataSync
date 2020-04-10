@@ -477,14 +477,17 @@ namespace Mc.DataSync.ReleaseBuild
         /// <param name="e"></param>
         private void btnChose_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < curLeftTable.Rows.Count; i++)
+            if (null != curLeftTable)
             {
-                DataRow row = curLeftTable.Rows[i];
-                listV_ShowData.Items[i].Checked = true;
-                row["_Checked"] = true;
+                for (int i = 0; i < curLeftTable.Rows.Count; i++)
+                {
+                    DataRow row = curLeftTable.Rows[i];
+                    listV_ShowData.Items[i].Checked = true;
+                    row["_Checked"] = true;
+                }
+                curLeftTable.AcceptChanges();
+                ShowChecked();
             }
-            curLeftTable.AcceptChanges();
-            ShowChecked();
         }
 
    

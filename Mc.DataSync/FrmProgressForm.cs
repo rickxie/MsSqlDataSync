@@ -48,7 +48,14 @@ namespace Mc.DataSync
             this.backgroundWorker1.CancelAsync(); //请求取消挂起的后台操作
             this.Close();
         }
-
-
+        /// <summary>
+        /// 关闭窗口默认也是取消
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FrmProgressForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.backgroundWorker1.CancelAsync(); //请求取消挂起的后台操作
+        }
     }
 }

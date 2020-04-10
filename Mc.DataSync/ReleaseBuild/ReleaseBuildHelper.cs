@@ -1374,7 +1374,7 @@ GO
         /// </summary>
         /// <param name="_dbConnectionTag">webcnfig 的connectionStrings节点name</param>
         /// <param name="sqlText"></param>
-        private void DbTargetExcute(string sqlText, object param = null)
+        public void DbTargetExcute(string sqlText, object param = null)
         {
             using (var connection = DbDapper.NewDbConnection)
             {
@@ -1399,7 +1399,7 @@ GO
         /// <param name="_dbConnectionTag">webcnfig 的connectionStrings节点name</param>
         /// <param name="sqlText"></param>
         /// <returns></returns>
-        private DataTable DbTargetQuery(string sqlText, object param = null)
+        public DataTable DbTargetQuery(string sqlText, object param = null)
         {
             using (var connection = DbDapper.NewDbConnection)
             {
