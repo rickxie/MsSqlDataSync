@@ -116,6 +116,8 @@ ORDER BY a.id,a.colorder
         /// 获取所有视图和存储过程数据  返回字段:name,type,definition
         /// </summary>
         private const string CONST_SQL_GETVIEWANDPROCEDURE = @"
+            --DECLARE @Name NVARCHAR(200)
+            --SET @Name=''
             --获取数据表中所有的存储过程
             SELECT (
                        CASE 
@@ -124,14 +126,40 @@ ORDER BY a.id,a.colorder
                             ELSE 'unknown'
                        END
                    )+a.Name         AS Id,
+                   (
+                       CASE 
+                            WHEN a.[type]='P' THEN N'存储过程'
+                            WHEN a.[type]='V' THEN N'视图'
+                            ELSE 'unknown'
+                       END
+                   )         AS TypeName,
                    a.Name,
                    a.[Type],
-                   RTRIM(LTRIM( b.[Definition])) AS [Definition]
+                   b.[Definition]
             FROM   sys.all_objects     a,
                    sys.sql_modules     b
             WHERE  a.is_ms_shipped = 0  
                    AND a.object_id = b.object_id  
                    AND a.[type]  IN ('P' ,'V')
+                   AND (@Name='' OR a.name = @Name) --增加一个条件,方便获取数据
+                   AND (
+                                   CAST(
+                                       CASE
+                                            WHEN a.is_ms_shipped=1 THEN 1
+                                            WHEN (
+                                                     SELECT major_id
+                                                     FROM   sys.extended_properties
+                                                     WHERE  major_id = a.object_id 
+                                                            AND minor_id = 0 
+                                                            AND class = 1 
+                                                            AND NAME =
+                                                                N'microsoft_database_tools_support'
+                                                 )
+                                                 IS NOT NULL THEN 1
+                                            ELSE 0
+                                       END AS BIT
+                                   )=N'0'
+                               ) --排除系统存储过程和视图
             ORDER BY a.[name] ASC
         ";
 
@@ -149,7 +177,8 @@ ORDER BY a.id,a.colorder
                    a.Name,
                    --a.[type],
                    'FN' AS [Type],
-                   RTRIM(LTRIM( b.[Definition])) AS [Definition]
+                   N'函数' AS TypeName,
+                   b.[Definition]
             FROM   sys.all_objects     a,
                    sys.sql_modules     b
             WHERE  a.is_ms_shipped = 0  
@@ -373,7 +402,7 @@ GO
 --拼接备注部分
 SET @SQL = @SQL+
     '
---添加备注信息
+--字段备注信息
  IF EXISTS (
        SELECT 1
        FROM   sysobjects
@@ -382,7 +411,7 @@ SET @SQL = @SQL+
               AND TYPE     = ''U''
    )
 BEGIN
-PRINT '''+@TableName+'''
+     PRINT '''+@TableName+'''
 '+@columnDescription_script+'
 END
 GO
@@ -422,6 +451,10 @@ SELECT @SQL AS [SQL]
         /// 类型定义,T=表,P=存储过程,V=视图,FN=函数
         /// </summary>
         public const string TABLE_DATACOLUMN_TYPE = "Type";
+        /// <summary>
+        /// 类型的中文名称
+        /// </summary>
+        public const string TABLE_DATACOLUMN_TYPENAME = "TypeName";
         /// <summary>
         /// 定义内容
         /// </summary>
@@ -488,9 +521,9 @@ SELECT @SQL AS [SQL]
             p.Add("Name", name);
             if ("T" == type) return GetSourAndTargetData(CONST_SQL_GETALLTABLESCHEMA, p);
             //1.1.1 获取函数 对比结果
-            else if ("FN" == type) return GetSourAndTargetData(CONST_SQL_GETFUNCTION, p);
+            else if ("FN" == type) return RemoveTrimByColumnName( GetSourAndTargetData(CONST_SQL_GETFUNCTION, p), TABLE_DATACOLUMN_DEFINITION);
             //1.1.2 获取视图和存储过程 对比结果
-            else return GetSourAndTargetData(CONST_SQL_GETVIEWANDPROCEDURE, p);
+            else return RemoveTrimByColumnName(GetSourAndTargetData(CONST_SQL_GETVIEWANDPROCEDURE, p), TABLE_DATACOLUMN_DEFINITION);
         }
 
         /// <summary>
@@ -565,6 +598,7 @@ SELECT @SQL AS [SQL]
                     //1.判断是否为新增列
                     if (tarRows.Count() == 0)
                     {
+                        sb.AppendLine($@"-- {tableName}表新增字段{columnName} ");
                         sb.AppendLine(@"ALTER TABLE " + tableName + " ADD " + columnName + " " + type + " " + defaultValue + " " + isNull + "");
                         sb.AppendLine("GO");
                     }
@@ -577,13 +611,15 @@ SELECT @SQL AS [SQL]
                         if (sourRow.ItemArray.SerializeJson() == tarRow.ItemArray.SerializeJson()) continue;
 
                         //2.1 判断是否为字段类型,长度修改
+                        sb.AppendLine($@"-- {tableName}表修改字段{columnName} ");
                         sb.AppendLine("ALTER TABLE " + tableName + " ALTER COLUMN " + columnName + " " + type + " " + defaultValue + " " + isNull + "");
                         sb.AppendLine("GO");
 
                         //2.2.判断是否为备注修改
                         if (description != tarRow["Description"].ToString())
                         {
-                            sb.AppendLine(@" 
+                            sb.AppendLine(@"
+--" + columnName + @"字段备注修改
 IF EXISTS(SELECT 1
 FROM   syscolumns a
        INNER JOIN sysobjects d ON  a.id = d.id AND  d.xtype = 'U' AND  d.name<>'dtproperties'
@@ -592,9 +628,9 @@ FROM   syscolumns a
 WHERE  g.[value] IS NULL
           AND d.name = '" + tableName + @"' 
        AND a.name = 'IsDeleted1' )
-       exec sp_addextendedproperty 'MS_Description', '" + description + @"', 'user', 'dbo', 'table', '" + tableName + @"', 'column', '" + columnName + @"'
+       EXEC sp_addextendedproperty 'MS_Description', '" + description + @"', 'user', 'dbo', 'table', '" + tableName + @"', 'column', '" + columnName + @"'
 ELSE
-           exec sp_updateextendedproperty 'MS_Description', '" + description + @"', 'user', 'dbo', 'table', '" + tableName + @"', 'column', '" + columnName + @"'
+       EXEC sp_updateextendedproperty 'MS_Description', '" + description + @"', 'user', 'dbo', 'table', '" + tableName + @"', 'column', '" + columnName + @"'
 GO;
                             ");
 
@@ -608,6 +644,7 @@ GO;
 
                             //如果不一致,先移除主键
                             sb.AppendLine(@" 
+--删除原始主键
 DECLARE @Pk VARCHAR(200);
 SELECT @Pk = NAME
 FROM   sysobjects
@@ -623,6 +660,7 @@ GO
                             //新增主键
                             if (1 == isPrimaryKey)
                             {
+                                sb.AppendLine("--创建新的主键");
                                 sb.AppendLine(@"ALTER TABLE " + tableName + @" ADD CONSTRAINT PK_" + tableName + @" PRIMARY KEY(" + columnName + @") ");
                                 sb.AppendLine("GO");
                             }
@@ -664,47 +702,46 @@ GO
 
             if ("P" == type)
             {
-                return @"
-                    IF EXISTS (
-                           SELECT *
-                           FROM   dbo.sysobjects
-                           WHERE  id = OBJECT_ID(N'[dbo].[" + name + @"]')  
-                                  AND OBJECTPROPERTY(id ,N'IsProcedure') = 1
-                       )
-                        -- 删除存储过程 
-                        DROP PROCEDURE [dbo].[" + name + @"] 
-                    GO 
+                return $@"
+--判断存储过程[dbo].[{name}]是否存在,如果存在则进行删除 
+IF EXISTS (
+        SELECT *
+        FROM   dbo.sysobjects
+        WHERE  id = OBJECT_ID(N'[dbo].[{name}]')  
+                AND OBJECTPROPERTY(id ,N'IsProcedure') = 1
+    )
+    DROP PROCEDURE [dbo].[{name}] 
+GO 
                 ";
 
             }
             else if ("V" == type)
             {
-                return @"
-                    -- 判断要创建的视图名是否存在 
-                    IF EXISTS (
-                           SELECT *
-                           FROM   dbo.sysobjects
-                           WHERE  id = OBJECT_ID(N'[dbo].[" + name + @"]')  
-                                  AND OBJECTPROPERTY(id ,N'IsView') = 1
-                       )
-                        -- 删除视图 
-                        DROP VIEW [dbo].[" + name + @"] 
-                    GO
+                return $@"
+--判断视图[dbo].[{name}]是否存在,如果存在则进行删除 
+IF EXISTS (
+        SELECT *
+        FROM   dbo.sysobjects
+        WHERE  id = OBJECT_ID(N'[dbo].[{name}]')  
+                AND OBJECTPROPERTY(id ,N'IsView') = 1
+    )
+    DROP VIEW [dbo].[{name}] 
+GO
                 ";
 
             }
             else if ("FN" == type)
             {
-                return @"
-                    IF EXISTS (
-                           SELECT *
-                           FROM   dbo.sysobjects
-                           WHERE  id = OBJECT_ID(N'[dbo].[" + name + @"]')  
-                                  AND xtype IN ('AF' ,'FN' ,'TF' ,'FS' ,'FT' ,'IF')
-                       )
-                        -- 删除函数 
-                        DROP FUNCTION [dbo].[" + name + @"] 
-                    GO 
+                return $@"
+--判断函数[dbo].[{name}]是否存在,如果存在则进行删除 
+IF EXISTS (
+        SELECT *
+        FROM   dbo.sysobjects
+        WHERE  id = OBJECT_ID(N'[dbo].[{name}]')  
+                AND xtype IN ('AF' ,'FN' ,'TF' ,'FS' ,'FT' ,'IF')
+    )
+    DROP FUNCTION [dbo].[{name}] 
+GO 
                 ";
 
             }
@@ -724,6 +761,7 @@ GO
                 new DataColumn(TABLE_DATACOLUMN_ID, typeof(string)),//唯一标识
                 new DataColumn(TABLE_DATACOLUMN_NAME, typeof(string)),//显示名称
                 new DataColumn(TABLE_DATACOLUMN_TYPE, typeof(string)),//类型定义,T=表,P=存储过程,V=视图,FN=函数
+                new DataColumn(TABLE_DATACOLUMN_TYPENAME, typeof(string)),//类型的中文名称
                 new DataColumn(TABLE_DATACOLUMN_DEFINITION, typeof(string)), //定义内容
                 new DataColumn(TABLE_DATACOLUMN_STATUS, typeof(string)), //状态,0正常,1新增,2修改 
                 new DataColumn(TABLE_DATACOLUMN_CHECKED, typeof(bool)) //是否选中
@@ -748,15 +786,37 @@ GO
             //1.1.1 获取函数 对比结果
             var p = new Dapper.DynamicParameters();
             p.Add("Name", "");
-            var funDs = GetSourAndTargetData(CONST_SQL_GETFUNCTION, p);
+            var funDs = RemoveTrimByColumnName(GetSourAndTargetData(CONST_SQL_GETFUNCTION, p), TABLE_DATACOLUMN_DEFINITION);
             AppendSchemaComparisonToTable(funDs.Tables[0], funDs.Tables[1], returnDt);
 
             //1.1.2 获取视图和存储过程 对比结果
-            var viewAndProcDs = GetSourAndTargetData(CONST_SQL_GETVIEWANDPROCEDURE, p);
+            var viewAndProcDs = RemoveTrimByColumnName(GetSourAndTargetData(CONST_SQL_GETVIEWANDPROCEDURE, p), TABLE_DATACOLUMN_DEFINITION);
             AppendSchemaComparisonToTable(viewAndProcDs.Tables[0], viewAndProcDs.Tables[1], returnDt);
 
             //1.3 返回最终对比结果数据
             return returnDt;
+        }
+
+        /// <summary>
+        /// 去除指定列中数据的首尾空格
+        /// </summary>
+        /// <param name="ds"></param>
+        private DataSet RemoveTrimByColumnName(DataSet ds,string columnName) {
+
+            foreach (DataTable dt in ds.Tables)
+            {
+                //如果表中存在此列,则去除内容中的空格
+                if (dt.Columns.Contains(columnName)) {
+                    //设置为非只读
+                    dt.Columns[columnName].ReadOnly = false;
+
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        dt.Rows[i][columnName] = Convert.ToString(dt.Rows[i][columnName]).Trim(); 
+                    }
+                }
+            }
+            return ds;
         }
 
         /// <summary>
@@ -777,6 +837,7 @@ GO
                 newRow[TABLE_DATACOLUMN_ID] = item[TABLE_DATACOLUMN_ID];
                 newRow[TABLE_DATACOLUMN_NAME] = item[TABLE_DATACOLUMN_NAME];
                 newRow[TABLE_DATACOLUMN_TYPE] = item[TABLE_DATACOLUMN_TYPE];
+                newRow[TABLE_DATACOLUMN_TYPENAME] = item[TABLE_DATACOLUMN_TYPENAME];
                 newRow[TABLE_DATACOLUMN_DEFINITION] = item[TABLE_DATACOLUMN_DEFINITION];
                 newRow[TABLE_DATACOLUMN_STATUS] = "1";
                 returnDt.Rows.Add(newRow);
@@ -789,6 +850,7 @@ GO
                 newRow[TABLE_DATACOLUMN_ID] = item[SourColumnPrefix + TABLE_DATACOLUMN_ID];
                 newRow[TABLE_DATACOLUMN_NAME] = item[SourColumnPrefix + TABLE_DATACOLUMN_NAME];
                 newRow[TABLE_DATACOLUMN_TYPE] = item[SourColumnPrefix + TABLE_DATACOLUMN_TYPE];
+                newRow[TABLE_DATACOLUMN_TYPENAME] = item[SourColumnPrefix + TABLE_DATACOLUMN_TYPENAME];
                 newRow[TABLE_DATACOLUMN_DEFINITION] = item[SourColumnPrefix + TABLE_DATACOLUMN_DEFINITION];
                 newRow[TABLE_DATACOLUMN_STATUS] = "2";
                 returnDt.Rows.Add(newRow);
@@ -834,6 +896,7 @@ GO
                 new DataColumn(TABLE_DATACOLUMN_ID, typeof(string)),//唯一标识
                 new DataColumn(TABLE_DATACOLUMN_NAME, typeof(string)),//显示名称
                 new DataColumn(TABLE_DATACOLUMN_TYPE, typeof(string)),//类型定义,T=表,P=存储过程,V=视图,FN=函数
+                new DataColumn(TABLE_DATACOLUMN_TYPENAME, typeof(string)),//类型的中文名称
                 new DataColumn(TABLE_DATACOLUMN_DEFINITION, typeof(string)) //定义内容
             });
 
@@ -850,6 +913,7 @@ GO
                 newRow[TABLE_DATACOLUMN_ID] = @"T/\" + item["TableName"];
                 newRow[TABLE_DATACOLUMN_NAME] = item["TableName"];
                 newRow[TABLE_DATACOLUMN_TYPE] = "T";
+                newRow[TABLE_DATACOLUMN_TYPENAME] = "表";
                 newRow[TABLE_DATACOLUMN_DEFINITION] = (dt.Select(" TableName = '" + tableName + "'").CopyToDataTable().SerializeJson());
                 returnDt.Rows.Add(newRow);
             }
@@ -1554,17 +1618,71 @@ GO
         /// 主键,例如:Id
         /// </summary>
         public string PrimaryKey { get; set; }
+        /// <summary>
+        /// 是否对比所有字段,如果为true,则不再使用配置项中的列
+        /// </summary>
+        public bool IsComparisonAllColumn { get; set; }
+
+        #region ComparisonColumns
 
         List<ComparisonColumns> comparisonColumnList = new List<ComparisonColumns>();
+
+        /// <summary>
+        /// 获取指定表中所有对比字段列
+        /// </summary>
+        private const string SQL_GETALLCOMPARISONCOLUMNS = @"
+            --获取指定表对应的所有列
+            SELECT a.name     ComparisonSelectColumn,
+                   a.name     ComparisonShowColumn
+            FROM   syscolumns a
+                   LEFT JOIN systypes b ON  a.xtype = b.xusertype
+                   INNER JOIN sysobjects d ON  a.id = d.id AND  d.xtype = 'U' AND  d.name<>
+                        'dtproperties'
+            WHERE  b.name IS NOT NULL  
+                   AND d.name = @TableName
+            ORDER BY a.colorder
+        ";
+
         /// <summary>
         /// 对比列集合
         /// </summary>
         [XmlElement(ElementName = "ComparisonColumns")]
         public List<ComparisonColumns> ComparisonColumns
         {
-            get { return comparisonColumnList; }
-            set { comparisonColumnList = value; }
+            get {
+                //如果为对比所有列,则自动获取所有列
+                if (IsComparisonAllColumn //全字段对比
+                    && (
+                    this.comparisonColumnList.Count == 0 //节点标记不存在
+                    ||(this.comparisonColumnList.Count == 1 && comparisonColumnList[0].ComparisonColumnsList.Count == 0 ) //只有一个空节点标记
+                    )
+                    )
+                {
+                     
+                    var dt = DbDapper.RunDataTableSql(SQL_GETALLCOMPARISONCOLUMNS, new { this.TableName });
+                    var comparisonColumns = new ComparisonColumns();
+                    comparisonColumns.ComparisonColumnsList = dt.SerializeJson().DeserializeJson<List<ComparisonColumn>>();
+                    if (this.comparisonColumnList.Count == 0)
+                        comparisonColumnList.Add(comparisonColumns);//新增
+                    else
+                        comparisonColumnList[0] = comparisonColumns; //覆盖
+
+                    return comparisonColumnList;
+                }
+                else {
+                    return comparisonColumnList;
+                }
+            }
+            set
+            {   //如果非对比所有列时才接受外部赋值
+                if (!IsComparisonAllColumn)
+                {
+                    comparisonColumnList = value;
+                }
+            }
         }
+
+        #endregion
 
         ComparisonCondition comparisonCondition = new ComparisonCondition();
         /// <summary>

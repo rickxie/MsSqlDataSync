@@ -93,6 +93,8 @@
         <IsMasterTable>false</IsMasterTable>
         <!-- 主键 -->
         <PrimaryKey>Id</PrimaryKey>
+        <!-- 是否对比所有字段,如果为true,则不再使用配置项中的列 -->
+        <IsComparisonAllColumn>false</IsComparisonAllColumn>
         <!-- 需要对比的列 -->
         <ComparisonColumns>
           <ComparisonColumn SelectColumn="Id" />
@@ -162,22 +164,10 @@
         <IsMasterTable>false</IsMasterTable>
         <!-- 主键 -->
         <PrimaryKey>Id</PrimaryKey>
+        <!-- 是否对比所有字段,如果为true,则不再使用配置项中的列 -->
+        <IsComparisonAllColumn>true</IsComparisonAllColumn>
         <!-- 需要对比的列 -->
         <ComparisonColumns>
-          <ComparisonColumn SelectColumn="Id" />
-          <ComparisonColumn SelectColumn="Type" />
-          <ComparisonColumn SelectColumn="LangName" />
-          <ComparisonColumn SelectColumn="IsEnable" />
-          <ComparisonColumn SelectColumn="ReturnToNodes" />
-          <ComparisonColumn SelectColumn="ActionLinkId" />
-          <ComparisonColumn SelectColumn="DisplayOrder" />
-          <ComparisonColumn SelectColumn="EnterpriseId" />
-          <ComparisonColumn SelectColumn="VariableValue" />
-          <ComparisonColumn SelectColumn="CreationTime" />
-          <ComparisonColumn SelectColumn="CreatorUserId" />
-          <ComparisonColumn SelectColumn="ForwardType" />
-          <ComparisonColumn SelectColumn="ForwardValue" />
-          <ComparisonColumn SelectColumn="ReturnToExceptNodes" />
         </ComparisonColumns>
         <!-- 对比数据筛选条件 -->
         <ComparisonCondition>

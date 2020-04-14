@@ -29,6 +29,8 @@
         <IsMasterTable>true</IsMasterTable>
         <!-- 主键 -->
         <PrimaryKey>Id</PrimaryKey>
+        <!-- 是否对比所有字段,如果为true,则不再使用配置项中的列 -->
+        <IsComparisonAllColumn>false</IsComparisonAllColumn>
         <!-- 需要对比的列 -->
         <ComparisonColumns>
           <!-- SelectColumn 查询列字段或者函数 -->
@@ -64,6 +66,8 @@
         <IsMasterTable>false</IsMasterTable>
         <!-- 主键 -->
         <PrimaryKey>Id</PrimaryKey>
+        <!-- 是否对比所有字段,如果为true,则不再使用配置项中的列 -->
+        <IsComparisonAllColumn>false</IsComparisonAllColumn>
         <!-- 需要对比的列 -->
         <ComparisonColumns>
           <ComparisonColumn SelectColumn="Id" />

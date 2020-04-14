@@ -46,29 +46,35 @@ namespace Mc.DataSync.ReleaseBuild
         /// <param name="e"></param>
         private void FrmReleaseBuild_Load(object sender, EventArgs e)
         {
-            //1.读取配置文件
-            string xmlDirPath = AppPath.GetRootRelative("Configs//Tabs");
-            var listConfigs = rbh.GetTabsByDir(xmlDirPath);
-            if (listConfigs.Count > 0)
+            try
             {
-                //动态生成Tab项
-                foreach (var item in listConfigs)
+                //1.读取配置文件
+                string xmlDirPath = AppPath.GetRootRelative("Configs//Tabs");
+                var listConfigs = rbh.GetTabsByDir(xmlDirPath);
+                if (listConfigs.Count > 0)
                 {
-                    var tempTabConfig = item.TabConfig;
-                    _tabConfigList.Add(tempTabConfig.Name, item);
-                    TabPage page = new TabPage
+                    //动态生成Tab项
+                    foreach (var item in listConfigs)
                     {
-                        Text = tempTabConfig.Name,
-                        Name = tempTabConfig.Name,
-                    };
+                        var tempTabConfig = item.TabConfig;
+                        _tabConfigList.Add(tempTabConfig.Name, item);
+                        TabPage page = new TabPage
+                        {
+                            Text = tempTabConfig.Name,
+                            Name = tempTabConfig.Name,
+                        };
 
-                    tabReleaseList.TabPages.Add(page);
+                        tabReleaseList.TabPages.Add(page);
+                    }
+
+                    //刷新默认选中的tab数据
+                    LoadTabData();
                 }
-
-                //刷新默认选中的tab数据
-                LoadTabData();
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("加载失败,请检查配置文件中的获取语句是否可以正确执行!\n异常信息:" + ex.Message);
+            }
         }
 
         /// <summary>
@@ -248,55 +254,63 @@ namespace Mc.DataSync.ReleaseBuild
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
-
-            var comparisonConfig = curConfig.ComparisonConfig;
-            var table = curConfig.GetCheckTable();
-            var sumCount = listV_ShowData.Items.Count;
-            for (int i = 0; i < sumCount; i++)
+            try
             {
-                #region 1.执行处理逻辑
-
-                ListViewItem item = listV_ShowData.Items[i];
-                //封装输入参数
-                Dictionary<string, string> inputPar = new Dictionary<string, string>();
-                foreach (ListViewItem.ListViewSubItem subItem in item.SubItems)
+                var comparisonConfig = curConfig.ComparisonConfig;
+                var table = curConfig.GetCheckTable();
+                var sumCount = listV_ShowData.Items.Count;
+                for (int i = 0; i < sumCount; i++)
                 {
-                    inputPar.Add(subItem.Name, subItem.Text);
+                    #region 1.执行处理逻辑
+
+                    ListViewItem item = listV_ShowData.Items[i];
+                    //封装输入参数
+                    Dictionary<string, string> inputPar = new Dictionary<string, string>();
+                    foreach (ListViewItem.ListViewSubItem subItem in item.SubItems)
+                    {
+                        inputPar.Add(subItem.Name, subItem.Text);
+                    }
+
+                    //执行对比,并设置背景颜色
+                    var status = rbh.ComparisonDataForQuick(comparisonConfig, inputPar);
+                    if (status == 1) //新增
+                    {
+                        item.ForeColor = Color.LightGreen;
+                    }
+                    else if (status == 2)//修改
+                    {
+                        item.ForeColor = Color.LightCoral;
+                    }
+                    else
+                    {
+                        item.ForeColor = Color.Black;
+                    }
+
+                    var id = item.Name;
+                    var row = table.Select($"id = '{id}'");
+                    row[0]["_Status"] = status;
+
+
+                    #endregion
+
+                    #region 2.计算完成度
+
+                    var percentum = Convert.ToInt32((i + 1) / Convert.ToDouble(sumCount) * 100);
+                    worker.ReportProgress(percentum);
+                    if (worker.CancellationPending) //获取程序是否已请求取消后台操作
+                    {
+                        e.Cancel = true;
+                        break;
+                    }
+
+                    #endregion
+
                 }
-
-                //执行对比,并设置背景颜色
-                var status = rbh.ComparisonDataForQuick(comparisonConfig, inputPar);
-                if (status == 1) //新增
-                {
-                    item.ForeColor = Color.LightGreen;
-                }
-                else if (status == 2)//修改
-                {
-                    item.ForeColor = Color.LightCoral;
-                }
-                else
-                {
-                    item.ForeColor = Color.Black;
-                }
-
-                var id = item.Name;
-                var row = table.Select($"id = '{id}'");
-                row[0]["_Status"] = status;
-
-                #endregion
-
-                #region 2.计算完成度
-
-                var percentum = Convert.ToInt32((i + 1) / Convert.ToDouble(sumCount) * 100);
-                worker.ReportProgress(percentum);
-                if (worker.CancellationPending) //获取程序是否已请求取消后台操作
-                {
-                    e.Cancel = true;
-                    break;
-                }
-
-                #endregion
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("对比失败,请检查两边对比表结构是否一致!\n异常信息:" + ex.Message);
+                e.Cancel = true;
             }
         }
 

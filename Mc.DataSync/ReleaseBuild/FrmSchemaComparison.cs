@@ -99,8 +99,8 @@ namespace Mc.DataSync.ReleaseBuild
                     lv.Items.Add(lvi);
 
                     ListViewItem.ListViewSubItem lvsiType = new ListViewItem.ListViewSubItem();
-                    lvsiType.Name = "_Type";
-                    lvsiType.Text = dr["Type"].ToString();
+                    lvsiType.Name = "_TypeName";
+                    lvsiType.Text = dr["TypeName"].ToString();
                     lvi.SubItems.Add(lvsiType);
 
                     //绑定其它列数据
@@ -321,8 +321,8 @@ namespace Mc.DataSync.ReleaseBuild
             for (int i = 0; i < rows.Length; i++)
             {
                 var value = rows[i]["Name"].ToString();
-                var type = rows[i]["Type"].ToString();
-                sb.AppendLine($"类型【{type}】：{value}  ");
+                var typeName = rows[i]["TypeName"].ToString();
+                sb.AppendLine($"【{typeName}】：{value}  ");
             }
             tbResult.Text = sb.ToString();
         }
@@ -471,27 +471,89 @@ namespace Mc.DataSync.ReleaseBuild
         #endregion
 
         /// <summary>
+        /// 是否全部选中
+        /// </summary>
+        private bool IsCheckAll = false;
+        /// <summary>
         /// 全选
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnChose_Click(object sender, EventArgs e)
         {
+            this.btnChose.Enabled = false;
+            IsCheckAll = !IsCheckAll;
             if (null != curLeftTable)
             {
                 for (int i = 0; i < curLeftTable.Rows.Count; i++)
                 {
                     DataRow row = curLeftTable.Rows[i];
-                    listV_ShowData.Items[i].Checked = true;
-                    row["_Checked"] = true;
+                    listV_ShowData.Items[i].Checked = IsCheckAll;
+                    row["_Checked"] = IsCheckAll;
                 }
                 curLeftTable.AcceptChanges();
                 ShowChecked();
             }
+            this.btnChose.Enabled = true;
+        }
+        /// <summary>
+        /// 搜索
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_search_Click(object sender, EventArgs e)
+        {
+            SearchData();
         }
 
-   
+        /// <summary>
+        /// 查询数据
+        /// </summary>
+        private void SearchData() {
+            //1.获取数据
+            var dt = curLeftTable;
 
+            var selectText = "";
 
+            //追加类型
+            selectText += (string.IsNullOrEmpty(cbox_Type.Text) || cbox_Type.Text == "全部")?"": " TypeName = '" + cbox_Type.Text + "' ";
+
+            //追加名称
+            selectText += (string.IsNullOrEmpty(selectText) ?"": " And ") + " Name like '%" + txt_SearchText.Text + "%' " ;
+ 
+            //2.执行本地筛选
+            var sameRows = dt.Select(selectText);
+
+            //3.绑定数据
+            if (sameRows?.Count() == 0) {
+                dataTableToListview(curLeftTable.Clone());
+            }
+            else
+            {
+                //3.数据绑定
+                var newDt = sameRows.CopyToDataTable();
+                newDt.DefaultView.Sort = "TypeName,Name";
+                dataTableToListview(newDt.DefaultView.ToTable());
+            }
+        }
+
+        /// <summary>
+        /// 输入时进行搜索
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txt_SearchText_TextChanged(object sender, EventArgs e)
+        {
+            SearchData();
+        }
+        /// <summary>
+        /// 切换时进行搜索
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbox_Type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SearchData();
+        }
     }
 }

@@ -51,14 +51,24 @@ namespace Mc.DataSync.ReleaseBuild
         /// <param name="e"></param>
         private void FrmComparisonDetail_Load(object sender, EventArgs e)
         {
-            //1.获取所有可以对比的表
-            var viewTable = rbh.GetComparisonViewTable(_releaseBuildConfig.ComparisonConfig, _inputPar);
-            dgv_ViewTable.DataSource = viewTable;
+            try
+            {
+                //1.获取所有可以对比的表
+                var viewTable = rbh.GetComparisonViewTable(_releaseBuildConfig.ComparisonConfig, _inputPar);
+                dgv_ViewTable.DataSource = viewTable;
 
-            //2.获取默认表中对比详情
-            if (dgv_ViewTable.SelectedRows.Count > 0) {
-                ComparisonDataForDetail(dgv_ViewTable.SelectedRows[0].Cells["Name"].Value.ToString());
+                //2.获取默认表中对比详情
+                if (dgv_ViewTable.SelectedRows.Count > 0)
+                {
+                    ComparisonDataForDetail(dgv_ViewTable.SelectedRows[0].Cells["Name"].Value.ToString());
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("对比失败,请检查文件配置或者表结构是否一致!\n异常信息:" + ex.Message);
+                this.Close();
+            }
+            
         }
 
         /// <summary>
