@@ -1618,17 +1618,71 @@ GO
         /// 主键,例如:Id
         /// </summary>
         public string PrimaryKey { get; set; }
+        /// <summary>
+        /// 是否对比所有字段,如果为true,则不再使用配置项中的列
+        /// </summary>
+        public bool IsComparisonAllColumn { get; set; }
+
+        #region ComparisonColumns
 
         List<ComparisonColumns> comparisonColumnList = new List<ComparisonColumns>();
+
+        /// <summary>
+        /// 获取指定表中所有对比字段列
+        /// </summary>
+        private const string SQL_GETALLCOMPARISONCOLUMNS = @"
+            --获取指定表对应的所有列
+            SELECT a.name     ComparisonSelectColumn,
+                   a.name     ComparisonShowColumn
+            FROM   syscolumns a
+                   LEFT JOIN systypes b ON  a.xtype = b.xusertype
+                   INNER JOIN sysobjects d ON  a.id = d.id AND  d.xtype = 'U' AND  d.name<>
+                        'dtproperties'
+            WHERE  b.name IS NOT NULL  
+                   AND d.name = @TableName
+            ORDER BY a.colorder
+        ";
+
         /// <summary>
         /// 对比列集合
         /// </summary>
         [XmlElement(ElementName = "ComparisonColumns")]
         public List<ComparisonColumns> ComparisonColumns
         {
-            get { return comparisonColumnList; }
-            set { comparisonColumnList = value; }
+            get {
+                //如果为对比所有列,则自动获取所有列
+                if (IsComparisonAllColumn //全字段对比
+                    && (
+                    this.comparisonColumnList.Count == 0 //节点标记不存在
+                    ||(this.comparisonColumnList.Count == 1 && comparisonColumnList[0].ComparisonColumnsList.Count == 0 ) //只有一个空节点标记
+                    )
+                    )
+                {
+                     
+                    var dt = DbDapper.RunDataTableSql(SQL_GETALLCOMPARISONCOLUMNS, new { this.TableName });
+                    var comparisonColumns = new ComparisonColumns();
+                    comparisonColumns.ComparisonColumnsList = dt.SerializeJson().DeserializeJson<List<ComparisonColumn>>();
+                    if (this.comparisonColumnList.Count == 0)
+                        comparisonColumnList.Add(comparisonColumns);//新增
+                    else
+                        comparisonColumnList[0] = comparisonColumns; //覆盖
+
+                    return comparisonColumnList;
+                }
+                else {
+                    return comparisonColumnList;
+                }
+            }
+            set
+            {   //如果非对比所有列时才接受外部赋值
+                if (!IsComparisonAllColumn)
+                {
+                    comparisonColumnList = value;
+                }
+            }
         }
+
+        #endregion
 
         ComparisonCondition comparisonCondition = new ComparisonCondition();
         /// <summary>

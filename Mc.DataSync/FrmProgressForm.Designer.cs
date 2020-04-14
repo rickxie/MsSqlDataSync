@@ -79,7 +79,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "进度";
+            this.Text = "正在处理中,请耐心等待....";
             this.Load += new System.EventHandler(this.FrmProgressForm_Load);
             this.ResumeLayout(false);
 

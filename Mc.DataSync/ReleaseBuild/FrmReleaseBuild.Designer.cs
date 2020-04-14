@@ -126,7 +126,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -165,10 +165,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.tbResult);
             this.groupBox1.Location = new System.Drawing.Point(2, 47);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(557, 486);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(558, 486);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "选择结果";
@@ -179,17 +179,17 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbResult.Location = new System.Drawing.Point(4, 19);
-            this.tbResult.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbResult.Margin = new System.Windows.Forms.Padding(2);
             this.tbResult.Multiline = true;
             this.tbResult.Name = "tbResult";
             this.tbResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbResult.Size = new System.Drawing.Size(542, 454);
+            this.tbResult.Size = new System.Drawing.Size(543, 454);
             this.tbResult.TabIndex = 0;
             // 
             // btnGenerate
             // 
             this.btnGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGenerate.Location = new System.Drawing.Point(424, 534);
+            this.btnGenerate.Location = new System.Drawing.Point(425, 534);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(126, 28);
             this.btnGenerate.TabIndex = 4;
@@ -214,6 +214,7 @@
             this.ClientSize = new System.Drawing.Size(975, 572);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FrmReleaseBuild";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "发布配置工具";
             this.Load += new System.EventHandler(this.FrmReleaseBuild_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);

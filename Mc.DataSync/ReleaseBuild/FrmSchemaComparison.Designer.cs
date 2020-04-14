@@ -191,7 +191,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(561, 486);
+            this.groupBox1.Size = new System.Drawing.Size(562, 486);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "选择结果";
@@ -209,7 +209,7 @@
             // btnGenerate
             // 
             this.btnGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGenerate.Location = new System.Drawing.Point(428, 534);
+            this.btnGenerate.Location = new System.Drawing.Point(429, 534);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(126, 28);
             this.btnGenerate.TabIndex = 4;
@@ -234,6 +234,7 @@
             this.ClientSize = new System.Drawing.Size(975, 572);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FrmSchemaComparison";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "发布配置工具";
             this.Load += new System.EventHandler(this.FrmReleaseBuild_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
